@@ -13,13 +13,15 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-  username: root
-  password:
-  host: localhost
+  username: arqsoft
+  password: 123
+  host: hi_users_db
+#  socket: /var/run/mysqld/mysqld.sock
+  socket: /tmp/mysql.sock
 
 development:
   <<: *default
-  database: hi_users_ms_development
+  database: users
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".

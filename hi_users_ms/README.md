@@ -2,21 +2,41 @@
 ### Rutas básicas :
  
 ```diff
- > localhost:3000/auth
+ > http://192.168.99.101:3000auth
  + POST
  + Registra Usuarios
+ {
+	"email":"juasmartinezbel@unal.edu.co",
+	"password": "123456789",
+	"username": "juasmartinezbel",
+	"first_name": "Juan Sebastián",
+	"last_name": "Martinez Beltrán"
+}
+
+
+
  
- >  localhost:3000/auth/sign_in
+ >  http://192.168.99.101:3000/auth/sign_in
  + POST
  + Inicia Sesión
+	{
+		"email":"juasmartinezbel@unal.edu.co",
+		"password": "123456789"
+	}
  
- >  localhost:3000/auth/sign_out
+
+ >  http://192.168.99.101:3000/auth/sign_out
  - DELETE
  + Cierra Sesión
  
-  >  localhost:3000/auth/welcum
+  >  http://192.168.99.101:3000/welcum
  + GET
- + Ruta de prueba
+ + Ruta de prueba de funcionamiento de tokens
+
+   >  http://192.168.99.101:3000/users
+ + GET
+ + Regresa todos los usuarios
+
 
  Existen otras rutas, pero estas son nada más para cuestiones de prueba.
   
