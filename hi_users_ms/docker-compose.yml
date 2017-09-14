@@ -3,7 +3,7 @@ services:
   hi_users_db:
     image: mysql
     ports:
-      - "3306:3306"
+      - "3302:3302"
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_USER: arqsoft
