@@ -6,4 +6,5 @@ Rails.application.routes.draw do
 
   get 'users/{id}',to: "users#show"
   get 'users/me',to: "users#showme"
+  post 'email', to: "users#email_exist"
 end

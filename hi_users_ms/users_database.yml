@@ -175,7 +175,31 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+  /email:
+    post:
+      summary: Returns an User by it's email
+      parameters:
+        - name: auth
+          in: body
+          required: true
+          description: Email of the user to find
+          schema:
+            $ref: '#/definitions/SearchEmail'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '404':
+          description: User not Found.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
 definitions:
 
   UsersList:
@@ -214,7 +238,12 @@ definitions:
         type: string 
       password:
         type: string
-  
+        
+  SearchEmail:
+    type: object 
+    properties:
+      email:
+        type: string
 # Errors
   ErrorModel:
     type: object

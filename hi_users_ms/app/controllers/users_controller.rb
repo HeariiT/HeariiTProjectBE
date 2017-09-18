@@ -27,5 +27,21 @@ class UsersController < ApplicationController
 
   end
 
+  def email_exist
+    @user=User.where('email = (?)', params[:email])
+
+    unless @user.empty?
+      @user=@user.first
+      render json: @user
+    else
+      render json: {
+        message: "User not found.",
+        code: 404,
+        description: "Email not found. User might not exist"
+      }, status: 404
+      return
+    end
+  end
+
 
 end
