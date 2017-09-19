@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'welcum', to: "users#welcum"
   get 'users', to: "users#index"
 
-  get 'users/{id}',to: "users#show"
+  get 'users/:id',to: "users#show"
   get 'users/me',to: "users#showme"
   post 'email', to: "users#email_exist"
 end

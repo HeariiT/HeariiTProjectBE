@@ -3,7 +3,7 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: Users Gateway
+  title: Users Gateway/signup_ms
   description: Ruby + MySQL Database
   contact:
       name: Group B

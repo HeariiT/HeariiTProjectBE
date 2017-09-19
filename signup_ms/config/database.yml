@@ -15,7 +15,7 @@ default: &default
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: arqsoft
   password: 123
-  host: hi_users_db
+  host: signup_db
 #  socket: /var/run/mysqld/mysqld.sock
   socket: /tmp/mysql.sock
 
@@ -28,7 +28,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: hi_users_ms_test
+  database: signup_ms_test
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -51,6 +51,6 @@ test:
 #
 production:
   <<: *default
-  database: hi_users_ms_production
-  username: hi_users_ms
-  password: <%= ENV['HI_USERS_MS_DATABASE_PASSWORD'] %>
+  database: signup_ms_production
+  username: signup_ms
+  password: <%= ENV['SIGNUP_MS_DATABASE_PASSWORD'] %>

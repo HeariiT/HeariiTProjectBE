@@ -7,4 +7,4 @@ test:
 production:
   adapter: redis
   url: redis://localhost:6379/1
-  channel_prefix: hi_users_ms_production
+  channel_prefix: signup_ms_production

@@ -1,6 +1,6 @@
 version: '2'
 services:
-  hi_users_db:
+  signup_db:
     image: mysql
     ports:
       - "3302:3302"
@@ -9,11 +9,11 @@ services:
       MYSQL_USER: arqsoft
       MYSQL_PASSWORD: 123
       MYSQL_DATABASE: users
-      MYSQL_HOST: hi_users_db
-  hi_users_ms:
+      MYSQL_HOST: signup_db
+  signup_ms:
     build: .
     command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 3000 -b '0.0.0.0'"
     ports:
       - "3000:3000"
     depends_on:
-      - hi_users_db
+      - signup_db
