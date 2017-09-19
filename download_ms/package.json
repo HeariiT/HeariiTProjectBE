@@ -1,0 +1,17 @@
+{
+  "name": "download_ms",
+  "version": "5.4.2",
+  "description": "The Microservice in charge of the URLs to provide the songs.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cristian Rojas",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.1",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.11",
+    "mongoose-unique-validator": "^1.0.6"
+  }
+}
