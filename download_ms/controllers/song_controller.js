@@ -13,16 +13,32 @@ var SongController = new function(){
       });
   }
 
-  this.getAllSongs = function (req, res) {
-      Song.find().then( function (songs) {
-        res.send(songs);
-      });
+  this.getQuerySongs = function (req, res) {
+
+      if(req.query.user != undefined){
+        Song.find({ user: req.query.user}).then( function (songs) {
+          res.send(songs);
+        }, function (err) {
+          res.send({status: 400,
+                    name: "BadRequest",
+                    description: String(err),
+                    request: req.body
+                  });
+        });
+      }else{
+        Song.find().then( function (songs) {
+          res.send(songs);
+        });
+      }
+
   }
 
   this.postNewSong = function (req, res) {
-      var song = new Song({ id      : req.body.id,
-                            url     : req.body.url,
-                            user    : req.body.user
+      var song = new Song({ id          : req.body.id,
+                            url         : req.body.url,
+                            user        : req.body.user,
+                            title       : req.body.title,
+                            description : req.body.description
                           });
       song.save().then( function (song) {
         res.send({status: 200,
@@ -41,9 +57,11 @@ var SongController = new function(){
 
   this.updateSong = function (req, res) {
     Song.findOne({ id: req.params.id }, function(err,song){
-      song.id = req.body.id;
-      song.url = req.body.url;
-      song.user = req.body.user;
+      song.id           = req.body.id;
+      song.url          = req.body.url;
+      song.user         = req.body.user;
+      song.title        = req.body.title;
+      song.description  = req.body.description;
       song.save().then( function (song) {
         res.send({status: 200,
                   name: "OK",
