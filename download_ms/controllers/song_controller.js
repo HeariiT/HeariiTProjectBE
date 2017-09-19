@@ -6,7 +6,7 @@ var SongController = new function(){
         res.send(song);
       }, function (err) {
         res.send({status: 400,
-                  name: "BadRequest",
+                  message: "BadRequest",
                   description: String(err),
                   request: req.body
                 });
@@ -20,7 +20,7 @@ var SongController = new function(){
           res.send(songs);
         }, function (err) {
           res.send({status: 400,
-                    name: "BadRequest",
+                    message: "BadRequest",
                     description: String(err),
                     request: req.body
                   });
@@ -41,14 +41,13 @@ var SongController = new function(){
                             description : req.body.description
                           });
       song.save().then( function (song) {
-        res.send({status: 200,
-                  name: "OK",
-                  description: "Song saved",
+        res.send({status: 201,
+                  message: "Created",
                   request: req.body
                 });
       }, function (err) {
         res.send({status: 400,
-                  name: "BadRequest",
+                  message: "BadRequest",
                   description: String(err),
                   request: req.body
                 });
@@ -56,43 +55,53 @@ var SongController = new function(){
   }
 
   this.updateSong = function (req, res) {
-    Song.findOne({ id: req.params.id }, function(err,song){
+    Song.findOne({ id: req.params.id }).then(function(song){
       song.id           = req.body.id;
       song.url          = req.body.url;
       song.user         = req.body.user;
       song.title        = req.body.title;
       song.description  = req.body.description;
       song.save().then( function (song) {
-        res.send({status: 200,
-                  name: "OK",
-                  description: "Song saved",
-                  request: req.body
+        res.send({status: 204,
+                  message: "No Content"
                 });
       }, function (err) {
         res.send({status: 400,
-                  name: "BadRequest",
+                  message: "BadRequest",
                   description: String(err),
                   request: req.body
                 });
       });
+    }, function (err) {
+      res.send({status: 404,
+                message: "NotFound",
+                description: String(err),
+                request: req.body
+              });
     });
   }
 
   this.deleteSong = function (req, res) {
-    Song.findOneAndRemove({ id: req.params.id }, function(err){
-      if(!err){
-        res.send({status: 200,
-                  name: "OK",
-                  description: "Song deleted",
-                  request: req.body
-                });
+    Song.findOne({ id: req.params.id }).then(function(song){
+      if(song != null){
+        song.remove(function (err) {
+            res.send({status: 200,
+                      message: "OK",
+                      request: song
+                    });
+                  });
       }else{
-        res.send({status: 400,
-                  name: "BadRequest",
-                  description: String(err),
-                  request: req.body
+        res.send({status: 404,
+                  message: "NotFound",
+                  description: "The Id: " + req.params.id + " was't found"
                 });
       }
+    }, function (err) {
+      res.send({status: 400,
+                message: "BadRequest",
+                description: String(err),
+                request: req.body
+              });
     });
   }
 
