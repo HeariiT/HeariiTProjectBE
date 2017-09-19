@@ -154,7 +154,7 @@ def get_user_matches( user_id ):
 
     return jsonify({
         'data' : data
-    })
+    }), 200
 
 ############################################## END MATCH ROUTES ########################################################
 
@@ -207,7 +207,7 @@ def user_categories( user_id ):
             'category_id' : uuid4( ).hex,
             'category_name' : request.json[ 'category_name' ]
         }
-        return jsonify( user_categories_table[ doc_id ] ), 200
+        return jsonify( user_categories_table[ doc_id ] ), 201
     elif request.method == 'PUT':
         if not request.json or not 'category_id' in request.json or not 'category_name' in request.json:
             abort( 400 )
