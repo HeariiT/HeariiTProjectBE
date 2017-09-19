@@ -4,8 +4,9 @@ var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
 var songSchema = new Schema({
-    id     : {type: ObjectId, required: true, unique: true},
-    url    : {type: String, required: true, unique: true}
+    id          : {type: ObjectId, required: true, unique: true},
+    url         : {type: String, required: true, unique: true},
+    user        : {type: ObjectId, required: true}
 })
 songSchema.plugin(uniqueValidator);
 
