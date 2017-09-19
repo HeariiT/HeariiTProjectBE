@@ -1,0 +1,7 @@
+category_classifier_db:
+  build: .
+  volumes:
+    - ./etc:/usr/local/etc/couchdb/local.d
+    - ./lib:/usr/local/var/lib/couchdb
+  ports:
+    - "3306:5984"
