@@ -1,0 +1,18 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: API Gateway
+  description: Ruby 
+  contact:
+      name: Grupo B
+      email: djguzmanc@unal.edu.co
+  license:
+    name: HeariiT
+host: 192.168.99.101:4000
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
