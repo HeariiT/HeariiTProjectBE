@@ -1,0 +1,276 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Users Gateway/signup_ms
+  description: Ruby + MySQL Database
+  contact:
+      name: Group B
+      email: juasmartinezbel@unal.edu.co 
+  license:
+    name: Software Architecture 2017-II
+    
+host: 192.168.99.101:3000
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /auth:
+    post:
+      summary: Registers a new User
+      parameters:
+        - name: auth
+          in: body
+          required: true
+          description: Creates a new user in the database
+          schema:
+            $ref: '#/definitions/Users'
+            
+      responses:
+        '200':
+          description: User created successfully.
+        '400':
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '422':
+          description: Unprocessable Entity.
+          schema:
+            $ref: '#/definitions/ParameterError'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+  /auth/sign_in:
+    post:
+      summary: Creates a new session
+      parameters:
+        - name: auth
+          in: body
+          required: true
+          description: User logged in successfully
+          schema:
+            $ref: '#/definitions/Login'
+            
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '401':
+          description: Unvalid Credentials.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /auth/:
+    put:
+      summary: Edits the User logged in
+      parameters:
+        - name: auth
+          in: body
+          required: true
+          description: Edits the user if he is logged in
+          schema:
+            $ref: '#/definitions/Users'
+            
+      responses:
+        '200':
+          description: OK.
+        '400':
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '401':
+          description: Unathorized.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '422':
+          description: Unprocessable Entity.
+          schema:
+            $ref: '#/definitions/ParameterError'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /auth/sign_out:
+    delete:
+      summary: Closes the active session
+      parameters: []
+      responses:
+        '200':
+          description: OK
+        '404':
+          description: User was not found or was not logged in.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /users:
+    get:
+      summary: Returns all the users
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/UsersList'
+        '404':
+          description: Not found.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    
+  
+  /users/{id}:
+    get:
+      summary: User {id} profile
+      parameters:
+        - name: id
+          in: path
+          description: Returns the user given it's id
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Users'
+        '404':
+          description: Not found.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+            
+  /users/me:
+    get:
+      summary: My profile
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Users'
+        '401':
+          description: Unathorized.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  /email:
+    post:
+      summary: Returns an User by it's email
+      parameters:
+        - name: auth
+          in: body
+          required: true
+          description: Email of the user to find
+          schema:
+            $ref: '#/definitions/SearchEmail'
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '404':
+          description: User not Found.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+definitions:
+
+  UsersList:
+    type: object
+    required:
+      - total
+      - list
+    properties:
+      total:
+        type: number
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/Users'
+  
+  Users:
+    type: object 
+    properties:
+      id:
+        type: integer
+      email:
+        type: string 
+      password:
+        type: string
+      username:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+        
+  Login:
+    type: object 
+    properties:
+      email:
+        type: string 
+      password:
+        type: string
+        
+  SearchEmail:
+    type: object 
+    properties:
+      email:
+        type: string
+# Errors
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object
+    
+  ParameterError:
+    type: object
+    required:
+      - message
+      - code
+      - data
+      - errors
+    properties:
+      message: 
+        type: string
+      code:
+        type: number
+      data:
+        $ref:  '#/definitions/Users'
+      errors:
+        type: object
