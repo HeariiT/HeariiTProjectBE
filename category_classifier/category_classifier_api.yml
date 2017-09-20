@@ -1,0 +1,385 @@
+#Test with: http://editor.swagger.io/
+
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Categorize Microservice
+  description: Python2.7 + CouchDB
+  contact:
+      name: Grupo B Arquitectura
+      email: djguzmanc@unal.edu.co
+  license:
+    name: HeariiT
+host: 192.168.99.101:3004
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /user/{id}/matches:
+    get:
+      summary: Returns all matches for given user
+      operationId: getMatches
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/MatchesList'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /user/{id}/match:
+    post:
+      summary: Creates a new match
+      operationId: createMatch
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+        - name: match
+          in: body
+          required: true
+          description: Match Object
+          schema:
+            $ref: '#/definitions/Match'
+
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/createdMatch'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    put:
+      summary: Updates an existing match
+      operationId: updateMatch
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+        - name: match
+          in: body
+          required: true
+          description: Match Object
+          schema:
+            $ref: '#/definitions/Match'
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/createdMatch'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /user/{id}/match/{f_id}:
+
+    delete:
+      summary: Deletes an existing match
+      operationId: deleteMatch
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+        - name: f_id
+          in: path
+          description: The id of the file
+          required: true
+          type: string
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Completed'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /categories:
+    get:
+      summary: Returns all default categories
+      operationId: getDefaultcategories
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/CategoryList'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /user/{id}/categories:
+    get:
+      summary: Returns all user categories
+      operationId: getUserCategories
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/CategoryList'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    post:
+      summary: Create new category for given user
+      operationId: createUserCategory
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+        - name: category
+          in: body
+          description: Category object
+          required: true
+          schema:
+            $ref: '#/definitions/NewCategory'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Category'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    put:
+      summary: Updates an existing category for given user
+      operationId: updateUserCategory
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+        - name: category
+          in: body
+          description: Category object
+          required: true
+          schema:
+            $ref: '#/definitions/Category'
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Category'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    delete:
+      summary: Deletes an existing category for given user
+      operationId: deleteUserCategory
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+        - name: category
+          in: body
+          description: Category object
+          required: true
+          schema:
+            $ref: '#/definitions/DropCategory'
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Completed'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /user/{id}/category_for_file/{f_id}:
+    get:
+      summary: Returns the category for a given file
+      operationId: getFilesCategory
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+        - name: f_id
+          in: path
+          description: The id of the file
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/Category'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /user/{id}/files_for_category/{c_id}:
+    get:
+      summary: Returns the files for a given category
+      operationId: getCategorysFiles
+      parameters:
+        - name: id
+          in: path
+          description: The id of the user
+          required: true
+          type: integer
+        - name: c_id
+          in: path
+          description: The id of the category
+          required: true
+          type: string
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: '#/definitions/FileList'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+
+definitions:
+# Matches
+  Match:
+    type: object
+    properties:
+      category_id:
+        type: string
+      file_id:
+        type: string
+
+  createdMatch:
+    type: object
+    properties:
+      _id:
+        type: string
+      _rev:
+        type: string
+      category_id:
+        type: string
+      file_id:
+        type: string
+      user_id:
+        type: string
+
+  MatchesList:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Match'
+
+# Category
+  Category:
+    type: object
+    properties:
+      category_name:
+        type: string
+      category_id:
+        type: string
+
+  NewCategory:
+    type: object
+    properties:
+      category_name:
+        type: string
+
+  CategoryList:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Category'
+
+  DropCategory:
+    type: object
+    properties:
+      category_id:
+        type: string
+
+# File
+  File:
+    type: object
+    properties:
+      file_id:
+        type: string
+
+  FileList:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/File'
+
+# Errors
+  ErrorModel:
+    type: object
+    properties:
+      error:
+        type: string
+
+# Other
+  Completed:
+    type: object
+    properties:
+      message:
+        type: string
