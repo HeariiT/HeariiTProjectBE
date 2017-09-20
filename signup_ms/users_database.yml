@@ -3,7 +3,7 @@
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: Users Gateway/signup_ms
+  title: Users Microservice/signup_ms
   description: Ruby + MySQL Database
   contact:
       name: Group B
@@ -29,7 +29,7 @@ paths:
           required: true
           description: Creates a new user in the database
           schema:
-            $ref: '#/definitions/Users'
+            $ref: '#/definitions/UsersSignUp'
             
       responses:
         '200':
@@ -82,7 +82,7 @@ paths:
           required: true
           description: Edits the user if he is logged in
           schema:
-            $ref: '#/definitions/Users'
+            $ref: '#/definitions/UsersSignUp'
             
       responses:
         '200':
@@ -205,11 +205,8 @@ definitions:
   UsersList:
     type: object
     required:
-      - total
       - list
     properties:
-      total:
-        type: number
       list:
         type: array
         items:
@@ -230,7 +227,21 @@ definitions:
         type: string
       last_name:
         type: string
-        
+  
+  UsersSignUp:
+    type: object 
+    properties:
+      email:
+        type: string 
+      password:
+        type: string
+      username:
+        type: string
+      first_name:
+        type: string
+      last_name:
+        type: string
+
   Login:
     type: object 
     properties:
@@ -271,6 +282,6 @@ definitions:
       code:
         type: number
       data:
-        $ref:  '#/definitions/Users'
+        $ref:  '#/definitions/UsersSignUp'
       errors:
         type: object
