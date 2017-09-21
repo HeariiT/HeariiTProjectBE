@@ -1,0 +1,18 @@
+version: '2'
+services:
+  upload_db:
+    image: postgres
+    ports:
+      - "3304:3304"
+    environment:
+      POSTGRES_USER: arqsoft
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DATABASE: upload
+      POSTGRES_HOST: upload_db
+  upload_ms:
+    build: .
+    command: bash -c "sleep 40 && rm -f tmp/pids/server.pid && bundle exec rails db:migrate && bundle exec rails s -p 3002 -b '0.0.0.0'"
+    ports: 
+      - "3002:3002"
+    depends_on: 
+      - upload_db

@@ -1,0 +1,93 @@
+{
+	"variables": [],
+	"info": {
+		"name": "upload_ms",
+		"_postman_id": "b8ea0f44-f4ab-ff46-d41b-192035210f19",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getAllSongs()",
+			"request": {
+				"url": "192.168.99.101:3002/songs",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "createSong(user_id, attachment)",
+			"request": {
+				"url": "192.168.99.101:3002/songs",
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "user_id",
+							"value": "1",
+							"description": "",
+							"type": "text"
+						},
+						{
+							"key": "attachment",
+							"description": "",
+							"type": "file",
+							"src": "Rammstein - Ich Will (Official Video).mp3"
+						}
+					]
+				},
+				"description": "attachment as file"
+			},
+			"response": []
+		},
+		{
+			"name": "getSongsById",
+			"request": {
+				"url": "192.168.99.101:3002/songs/10",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "getSongsByUserId",
+			"request": {
+				"url": "192.168.99.101:3002/songs/user/2",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "deleteSongById",
+			"request": {
+				"url": "192.168.99.101:3002/songs/10",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "deleteAllUserSongs",
+			"request": {
+				"url": "192.168.99.101:3002/songs/user/3",
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
