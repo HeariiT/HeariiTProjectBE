@@ -1,16 +1,16 @@
 #   README
 ### Basic installation:
-  sudo pip install requests
-  pip install Flask-JWT
-  pip install Flask-SQLAlchemy
+  * sudo pip install requests
+  * pip install Flask-JWT
+  *  pip install Flask-SQLAlchemy
 
 ### Mysql table creation:
-  mysql -u root -p
-  //password = 123
-  drop database session_db;
-  create database session_db;
-  use session_db;
-  show tables;
+  * mysql -u root -p
+  * //password = 123
+  * drop database session_db;
+  * create database session_db;
+  * use session_db;
+  * show tables;
 
 
 ### Rutas básicas :
