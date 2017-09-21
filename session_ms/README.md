@@ -13,7 +13,7 @@
   * show tables;
 
 
-### Rutas básicas :
+## Routes :
 
  ```diff
 
