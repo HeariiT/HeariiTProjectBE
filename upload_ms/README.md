@@ -1,24 +1,50 @@
-# README
+# Leeme
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rutas:
 
-Things you may want to cover:
+ * Obtener todas las canciones
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+ 	```
+    GET 192.168.99.101:3002/songs
+    
+    Acá pueden usar parámetros como firstResult y maxResult, recuerden:
+    
+    192.168.99.101:3002/songs?firstResult=xxx&maxResult=yyy
+    
+    ```  
+    
+ * Obtener una canción por ID
+ 
+ 	```
+    GET 192.168.99.101:3002/songs/:id
+    ``` 
+    
+ * Obtener todas las canciones de un usuario por su ID
+ 
+ 	```
+    GET 192.168.99.101:3002/songs/user/:user_id
+    ``` 
+    
+ * Cargar una canción
+ 
+ 	```
+    POST 192.168.99.101:3002/songs
+    ``` 
+    
+    ```json
+    {
+    	"user_id": xxx,
+        "attachment": (cargar como archivo si se está usando POSTMAN)
+    }
+    ``` 
+    
+ * Borrar una canción dado su ID
+ 
+ 	```
+    DELETE 192.168.99.101:3002/songs/:id
+    ``` 
+    
+ * Borrar todas las canciones de un usuario por su ID
+ 
+ 	```
+    DELETE 192.168.99.101:3002/songs/user/:user_id
