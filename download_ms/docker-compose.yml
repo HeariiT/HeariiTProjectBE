@@ -1,0 +1,12 @@
+version: "2"
+services:
+  download_db:
+    image: mongo
+    ports:
+      - "27017:27017"
+  download_ms:
+    build: .
+    ports:
+      - "3003:3003"
+    depends_on:
+      - download_db

@@ -5,11 +5,10 @@ var mongoose = require('mongoose');
 var router = require("./routes");
 var app = express()
 
-const HOST = '0.0.0.0';
 const PORT = 3003;
 
 // connect to DB
-mongoose.connect('mongodb://localhost/songs');
+mongoose.connect('mongodb://download_db:27017/songs');
 
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -21,4 +20,4 @@ app.use(bodyParser.json())
 app.use("/",router);
 
 // Server Start at Port
-app.listen(PORT, HOST);
+app.listen(PORT);
