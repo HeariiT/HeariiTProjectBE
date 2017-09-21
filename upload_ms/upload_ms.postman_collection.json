@@ -10,7 +10,7 @@
 		{
 			"name": "getAllSongs()",
 			"request": {
-				"url": "localhost:3000/songs",
+				"url": "192.168.99.101:3002/songs",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -21,7 +21,7 @@
 		{
 			"name": "createSong(user_id, attachment)",
 			"request": {
-				"url": "localhost:3000/songs",
+				"url": "192.168.99.101:3002/songs",
 				"method": "POST",
 				"header": [],
 				"body": {
@@ -29,15 +29,15 @@
 					"formdata": [
 						{
 							"key": "user_id",
-							"value": "3",
+							"value": "1",
 							"description": "",
 							"type": "text"
 						},
 						{
 							"key": "attachment",
-							"value": "",
 							"description": "",
-							"type": "file"
+							"type": "file",
+							"src": "Rammstein - Ich Will (Official Video).mp3"
 						}
 					]
 				},
@@ -48,7 +48,7 @@
 		{
 			"name": "getSongsById",
 			"request": {
-				"url": "localhost:3000/songs/1",
+				"url": "192.168.99.101:3002/songs/10",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -59,7 +59,7 @@
 		{
 			"name": "getSongsByUserId",
 			"request": {
-				"url": "localhost:3000/songs/user/1",
+				"url": "192.168.99.101:3002/songs/user/2",
 				"method": "GET",
 				"header": [],
 				"body": {},
@@ -70,7 +70,7 @@
 		{
 			"name": "deleteSongById",
 			"request": {
-				"url": "localhost:3000/songs/6",
+				"url": "192.168.99.101:3002/songs/10",
 				"method": "DELETE",
 				"header": [],
 				"body": {},
@@ -81,7 +81,7 @@
 		{
 			"name": "deleteAllUserSongs",
 			"request": {
-				"url": "localhost:3000/songs/user/3",
+				"url": "192.168.99.101:3002/songs/user/3",
 				"method": "DELETE",
 				"header": [],
 				"body": {},

@@ -106,9 +106,9 @@ class SongsController < ApplicationController
       if @song.save
         render json:{
           message: "Created",
-          code: 200,
+          code: 201,
           description: "Song successfully uploaded"
-        }, status: 200
+        }, status: 201
       else
         render json: @song.errors, status: :unprocessable_entity
       end
