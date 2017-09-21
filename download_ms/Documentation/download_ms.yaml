@@ -1,0 +1,210 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Songs Microservice
+  description: NodeJS + MongoDB
+  contact:
+    name: Cristian Alenxanther Rojas Cárdenas
+    email: crarojasca@unal.edu.co
+  license:
+    name: HeariiT - Software Architecture 2017-II
+host: '192.168.99.101:3003'
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /songs:
+    get:
+      summary: Returns a query of songs.
+      operationId: getQuerySongs
+      parameters:
+        - name: user
+          in: query
+          description: The songs of a user
+          required: false
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/SongList'
+        '400':
+          description: Bad Request (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    post:
+      summary: Creates a new song
+      operationId: postNewSong
+      parameters:
+        - name: song
+          in: body
+          required: true
+          description: Song Object
+          schema:
+            $ref: '#/definitions/Song'
+      responses:
+        '201':
+          description: Created
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - request
+            properties:
+              status:
+                type: number
+              message:
+                type: string
+              request:
+                type: object
+        '400':
+          description: Bad Request (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/songs/{id}':
+    get:
+      summary: Returns a song with the given id
+      operationId: getSongById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the song to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Song'
+        '400':
+          description: Bad Request (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    put:
+      summary: Updates a song with the given id
+      operationId: updateSong
+      parameters:
+        - name: id
+          in: path
+          description: The id of the song to be updated
+          required: true
+          type: string
+        - name: song
+          in: body
+          required: true
+          description: Song Object
+          schema:
+            $ref: '#/definitions/Song'
+      responses:
+        '204':
+          description: No Content
+        '400':
+          description: Bad Request (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    delete:
+      summary: Deletes a song with the given id
+      operationId: deleteSong
+      parameters:
+        - name: id
+          in: path
+          description: The id of the song to be deleted
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            type: object
+            required:
+              - status
+              - message
+              - request
+            properties:
+              status:
+                type: number
+              message:
+                type: string
+              request:
+                type: object
+        '400':
+          description: Bad Request (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+definitions:
+  Song:
+    type: object
+    required:
+      - id
+      - url
+      - user
+      - title
+    properties:
+      id:
+        type: string
+      url:
+        type: string
+      user:
+        type: string
+      title:
+        type: string
+      description:
+        type: string
+  SongList:
+    type: object
+    required:
+      - list
+    properties:
+      list:
+        type: array
+        items:
+          $ref: '#/definitions/Song'
+  ErrorModel:
+    type: object
+    required:
+      - status
+      - message
+      - description
+      - request
+    properties:
+      status:
+        type: number
+      message:
+        type: string
+      description:
+        type: string
+      request:
+        type: object
