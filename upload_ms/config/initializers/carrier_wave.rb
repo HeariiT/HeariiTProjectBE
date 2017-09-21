@@ -9,7 +9,6 @@ CarrierWave.configure do |config|
   }
 
   config.fog_directory = 'songs'
-  config.asset_host = "http://c000000.cdn.rackspacecloud.com"
   #config.fog_public = false
   #config.fog_authenticated_url_expiration = 1.minute
 end
