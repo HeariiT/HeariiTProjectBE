@@ -1,10 +1,10 @@
-
-Basic installation:
+#   README
+### Basic installation:
   sudo pip install requests
   pip install Flask-JWT
   pip install Flask-SQLAlchemy
 
-Mysql table creation:
+### Mysql table creation:
   mysql -u root -p
   //password = 123
   drop database session_db;
@@ -13,7 +13,9 @@ Mysql table creation:
   show tables;
 
 
-Rutas básicas :
+### Rutas básicas :
+
+ ```diff
 
  >  http://192.168.99.101:3001/sign_in
  + POST
@@ -70,3 +72,5 @@ Rutas básicas :
   {
     'email' : 'juasmartinezbel@unal.edu.co!'
   }
+
+  ```
