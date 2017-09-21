@@ -1,0 +1,212 @@
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Upload microservice
+  description: Ruby + PostgreSQL Database
+  contact:
+    name: Luis Ernesto Gil Castellanos
+    email: luegilca@unal.edu.co
+  license:
+    name: Software Architecture 2017-II
+host: '192.168.99.101:3002'
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /songs:
+    get:
+      summary: Returns all Songs
+      operationId: getAllSongs
+      parameters:
+        - name: firstResult
+          in: query
+          description: The first result to return
+          required: false
+          type: integer
+        - name: maxResult
+          in: query
+          description: The maximum number of results to return
+          required: false
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/SongList'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    post:
+      summary: Uploads a new song to RackSpace Cloud
+      operationId: createSong
+      parameters:
+        - name: song
+          in: body
+          required: true
+          description: Song Object
+          schema:
+            $ref: '#/definitions/SongWithoutId'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad Request (provided invalid params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: 'Not Acceptable (Invalid Params, like non integer user_id)'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error (Unexpected error)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/songs/{id}':
+    get:
+      summary: Get a song given its ID
+      operationId: getSongsById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the song to be returned
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Song'
+        '404':
+          description: 'Not Found (song with {id} was not found)'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: 'Not Acceptable (Invalid Params, like non integer id)'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error (Unexpected error)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    delete:
+      summary: Deletes a song with the given id
+      operationId: deleteSongById
+      parameters:
+        - name: id
+          in: path
+          description: The id of the song to be deleted
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: 'Not Found (song with {id} was not found)'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: 'Not Acceptable (Invalid Params, like non integer id)'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error (Unexpected error)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  '/songs/user/{user_id}':
+    get:
+      summary: Get all songs from the user with user_id
+      operationId: getSongsByUserId
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of the user
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/SongList'
+        '404':
+          description: 'Not Found (user with {user_id} still has no songs)'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: 'Not Acceptable (Invalid Params, like non integer id)'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error (Unexpected error)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+    delete:
+      summary: Deletes all the songs from the user with user_id
+      operationId: deleteAllUserSongs
+      parameters:
+        - name: user_id
+          in: path
+          description: The id of the user you want to delete all its songs
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: 'Not Found (user with {user_id} still has no songs)'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+          description: 'Not Acceptable (Invalid Params, like non integer id)'
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error (Unexpected error)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+definitions:
+  Song:
+    type: object
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: integer
+      attachment:
+        type: object
+  SongWithoutId:
+    type: object
+    properties:
+      user_id:
+        type: integer
+      attachment:
+        type: object
+  SongList:
+    type: object
+    required:
+      - songs
+    properties:
+      songs:
+        type: array
+        items:
+          $ref: '#/definitions/Song'
+  ErrorModel:
+    type: object
+    required:
+      - message
+      - code
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object

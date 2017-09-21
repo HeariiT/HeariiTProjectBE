@@ -115,10 +115,10 @@ class SongsController < ApplicationController
     else
       render json:
         {
-          message: "Not Acceptable (Invalid Params)",
-          code: 406,
+          message: "Bad Request",
+          code: 400,
           description: "Parameters: #{unpermitted} not valid"
-        }, status: 406
+        }, status: 400
     end
   end
 
