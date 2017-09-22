@@ -26,15 +26,6 @@
 		"password": "123456789"
 	}
  
-
- >  http://192.168.99.101:3000/auth/sign_out
- - DELETE
- + Cierra Sesión
- 
-  >  http://192.168.99.101:3000/welcum
- + GET
- + Ruta de prueba de funcionamiento de tokens
-
    >  http://192.168.99.101:3000/users
  + GET
  + Regresa todos los usuarios
