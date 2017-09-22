@@ -4,6 +4,7 @@
   "description": "The Microservice in charge of the URLs to provide the songs.",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Cristian Rojas",
