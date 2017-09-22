@@ -3,7 +3,15 @@ var SongController = new function(){
 
   this.getSongById = function (req, res) {
       Song.findOne({ id: req.params.id }).then( function (song) {
-        res.send(song);
+        if(song != null){
+          res.send(song);
+        }else{
+          res.send({status: 404,
+                    message: "NotFound",
+                    description: "The Id: " + req.params.id + " was't found"
+                  });
+        }
+
       }, function (err) {
         res.send({status: 400,
                   message: "BadRequest",
