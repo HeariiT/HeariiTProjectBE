@@ -35,7 +35,7 @@ paths:
         '200':
           description: User created successfully.
           schema:
-            $ref: "#/definitions/Users"
+            $ref: "#/definitions/UserCreated"
         '400':
           description: Bad Request.
           schema:
@@ -63,6 +63,8 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: '#/definitions/UserInf'
         '400':
           description: Bad Request.
           schema:
@@ -210,6 +212,55 @@ definitions:
         type: string
       last_name:
         type: string
+
+  UserInf:
+    type: object
+    properties:
+        id: 
+          type: integer
+        email:
+          type: string
+        provider:
+          type: string
+        username:
+          type: string
+        first_name:
+          type: string
+        last_name:
+          type: string
+        uid:
+          type: string
+  
+  UserCreated:
+    type: object 
+    properties:
+      status:
+        type: string 
+      data:
+        type: object
+        properties:
+          id: 
+            type: integer
+          email:
+            type: string
+          provider:
+            type: string
+          username:
+            type: string
+          first_name:
+            type: string
+          last_name:
+            type: string
+          uid:
+            type: string
+          created_at:
+            type: string
+          updated_at:
+            type: string
+          
+
+
+
 
   Login:
     type: object 
