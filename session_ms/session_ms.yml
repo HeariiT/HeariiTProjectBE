@@ -75,7 +75,7 @@ paths:
             $ref: '#/definitions/ErrorModel'
 
   /validate:
-    post:
+    get:
       summary: Validates if a JWT token is valid or not,  if is revoked or not
       operationId: validate
       parameters:
@@ -84,12 +84,6 @@ paths:
           description: Token to validate
           required: True
           type: string
-        - name: login credentials
-          in: body
-          required: true
-          description: User's email and password
-          schema:
-            $ref: '#/definitions/Login'
       responses:
         '200':
           description: email
@@ -105,26 +99,20 @@ paths:
             $ref: '#/definitions/ErrorModel'
 
   /refresh:
-    post:
+    get:
       summary: Adds old token to revokedTokens and returns a new one
       operationId: refresh
       parameters:
         - name: x-access-token
           in: header
-          description: Token to revoke
+          description: Token to validate
           required: True
           type: string
-        - name: login credentials
-          in: body
-          required: true
-          description: User's email and password
-          schema:
-            $ref: '#/definitions/Login'
       responses:
         '200':
-          description: new Token
+          description: email
           schema:
-            $ref: '#/definitions/Token'
+            $ref: '#/definitions/Email'
         '401':
           description: Could not verify!
           schema:

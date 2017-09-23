@@ -6,11 +6,10 @@
 
 ### Mysql table creation:
   * mysql -u root -p
-  * //password = 123
-  * drop database session_db;
-  * create database session_db;
+  * //password = 123;
   * use session_db;
-  * show tables;
+  * create table revoked_token (id int not null auto_increment, rToken varchar(255) unique);
+  * exit();
 
 
 ## Routes :
