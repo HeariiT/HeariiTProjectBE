@@ -4,10 +4,10 @@ var Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
 var songSchema = new Schema({
-    id          : {type: ObjectId, required: true, unique: true},
+    id          : {type: Number, required: true, unique: true},
     url         : {type: String, required: true, unique: true},
     user        : {type: Number, required: true},
-    title       : {type: String, required: true},
+    title       : {type: String, required: true, unique: true},
     description : {type: String},
 })
 songSchema.plugin(uniqueValidator);
