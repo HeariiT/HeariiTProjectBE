@@ -1,11 +1,11 @@
 class SongsController < ApplicationController
 
+  before_action :validate_token, only: [ :index, :create, :show, :update, :destroy ]
 
   #GET  /songs
   def index
     if params[:user] != nil
-      @user = params[:user]
-      if checkUser(@user)
+      if checkUser(params[:user])
         if getSongsByUser(@user["id"])
           render json: @songs
         end
@@ -15,15 +15,7 @@ class SongsController < ApplicationController
         render json: @songs
       end
     end
-
-    unless @error == nil
-      render json:
-      {
-        code: @error["status"],
-        message: @error["error"],
-        description: @error["exception"],
-      }
-    end
+    renderErrors();
   end
 
   #POST  /songs
@@ -31,59 +23,37 @@ class SongsController < ApplicationController
     if postNewSong(params["song"])
       render json: @res
     end
-
-    unless @error == nil
-      render json:
-      {
-        code: @error["status"],
-        message: @error["error"],
-        description: @error["exception"],
-      }
-    end
+    renderErrors();
   end
 
   #GET  /songs/:id
   def show
-
     if getSongByID(params["id"])
       render json: @song
     end
-
-    unless @error == nil
-      render json:
-      {
-        code: @error["status"],
-        message: @error["error"],
-        description: @error["exception"],
-      }
-    end
+    renderErrors();
   end
 
   #PUT  /songs/:id
   def update
-
     if updateSong(params["id"], params["song"])
       render json: @res
     end
-
-    unless @error == nil
-      render json:
-      {
-        code: @error["status"],
-        message: @error["error"],
-        description: @error["exception"],
-      }
-
-    end
+    renderErrors();
   end
 
   #DELETE  /songs/:id
   def destroy
-
     if deleteSong(params["id"])
       render json: @res
     end
+    renderErrors();
+  end
 
+  #____________________________________________________________________________
+  #------------------Middle Funcions-------------------------------------------
+
+  def renderErrors()
     unless @error == nil
       render json:
       {
@@ -95,9 +65,8 @@ class SongsController < ApplicationController
   end
 
   def checkUser(id)
-    response = HTTParty.get("http://192.168.99.101:3000/users/" + id.to_s)
-    case response.code
-    when 200
+    response = HTTParty.get(@@sign_up_ms_url + "/users/" + id.to_s)
+    if response.code == 200
       @user = JSON.parse(response.body)
       return true
     else
@@ -107,9 +76,8 @@ class SongsController < ApplicationController
   end
 
   def getAllSongs()
-    response = HTTParty.get("http://192.168.99.101:3003/songs")
-    case response.code
-    when 200
+    response = HTTParty.get(@@download_ms_url + "/songs")
+    if response.code == 200
       @songs = JSON.parse(response.body)
       return true
     else
@@ -119,10 +87,9 @@ class SongsController < ApplicationController
   end
 
   def getSongByID(id)
-    response = HTTParty.get("http://192.168.99.101:3003/songs/" + id.to_s)
-    case response.code
-    when 200
-      @song = JSON.parse(response.body)
+    response = HTTParty.get(@@download_ms_url + "/songs/" + id.to_s)
+    if response.code == 200
+      @songs = JSON.parse(response.body)
       return true
     else
       @error = response
@@ -131,9 +98,8 @@ class SongsController < ApplicationController
   end
 
   def getSongsByUser(user)
-    response = HTTParty.get("http://192.168.99.101:3003/songs?user=" + user.to_s)
-    case response.code
-    when 200
+    response = HTTParty.get(@@download_ms_url + "/songs?user=" + user.to_s)
+    if response.code == 200
       @songs = JSON.parse(response.body)
       return true
     else
@@ -143,17 +109,14 @@ class SongsController < ApplicationController
   end
 
   def postNewSong(song)
-
     options = {
       :body => song.to_json,
       :headers => {
         'Content-Type' => 'application/json'
       }
     }
-
-    response = HTTParty.post("http://192.168.99.101:3003/songs", options)
-    case response.code
-    when 200
+    response = HTTParty.post(@@download_ms_url + "/songs", options)
+    if response.code == 200
       @res = JSON.parse(response.body)
       return true
     else
@@ -169,10 +132,8 @@ class SongsController < ApplicationController
         'Content-Type' => 'application/json'
       }
     }
-
-    response = HTTParty.put("http://192.168.99.101:3003/songs/" + id.to_s, options)
-    case response.code
-    when 200
+    response = HTTParty.put(@@download_ms_url + "/songs/" + id.to_s, options)
+    if response.code == 200
       @res = JSON.parse(response.body)
       return true
     else
@@ -182,9 +143,8 @@ class SongsController < ApplicationController
   end
 
   def deleteSong(id)
-    response = HTTParty.delete("http://192.168.99.101:3003/songs/" + id.to_s)
-    case response.code
-    when 200
+    response = HTTParty.delete(@@download_ms_url + "/songs/" + id.to_s)
+    if response.code == 200
       @res = JSON.parse(response.body)
       return true
     else
@@ -192,6 +152,5 @@ class SongsController < ApplicationController
       return false
     end
   end
-
 
 end
