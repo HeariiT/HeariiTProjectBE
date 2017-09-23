@@ -2,6 +2,7 @@ class ApplicationController < ActionController::API
 
   @@sign_up_ms_url = 'http://192.168.99.101:3000'
   @@sessions_ms_url = 'http://192.168.99.101:3001'
+  @@download_ms_url = 'http://192.168.99.101:3003'
 
   def jsonify( httparty_results )
     JSON.parse( httparty_results.body )

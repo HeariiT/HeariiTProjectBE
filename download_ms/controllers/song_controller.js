@@ -3,9 +3,9 @@ var SongController = new function(){
 
   this.getSongById = function (req, res) {
       Song.findOne({ id: req.params.id }).then( function (song) {
-        res.send(song);
+          res.send(song);
       }, function (err) {
-        res.send({status: 400,
+        res.status(400).send({status: 400,
                   message: "BadRequest",
                   description: String(err),
                   request: req.body
@@ -56,6 +56,12 @@ var SongController = new function(){
 
   this.updateSong = function (req, res) {
     Song.findOne({ id: req.params.id }).then(function(song){
+      if(song == null){
+        res.status(404).send({status: 404,
+                  error: "NotFound",
+                  exception: "The Id: " + req.params.id + " was't found"
+                });
+      }
       song.id           = req.body.id;
       song.url          = req.body.url;
       song.user         = req.body.user;
@@ -73,7 +79,7 @@ var SongController = new function(){
                 });
       });
     }, function (err) {
-      res.send({status: 404,
+      res.status(404).send({status: 404,
                 message: "NotFound",
                 description: String(err),
                 request: req.body
@@ -91,9 +97,9 @@ var SongController = new function(){
                     });
                   });
       }else{
-        res.send({status: 404,
-                  message: "NotFound",
-                  description: "The Id: " + req.params.id + " was't found"
+        res.status(404).send({status: 404,
+                  error: "NotFound",
+                  exception: "The Id: " + req.params.id + " was't found"
                 });
       }
     }, function (err) {
