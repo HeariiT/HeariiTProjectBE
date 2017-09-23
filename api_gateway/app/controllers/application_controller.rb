@@ -16,4 +16,33 @@ class ApplicationController < ActionController::API
     }
   end
 
+  def parse_options_with_session( params )
+    return {
+      :body => params.to_json,
+      :headers => {
+        'Content-Type' => 'application/json',
+        'x-access-token' => request.headers[ 'x-access-token' ]
+      }
+    }
+  end
+
+  def validate_token
+    options = parse_options_with_session( {} )
+    sessions_results = HTTParty.post( @@sessions_ms_url + '/sign_in', options )
+    unless sessions_results.include? 'email'
+      render :json => jsonify( sessions_results ), :status => sessions_results.code
+      return
+    end
+    @user_email = jsonify( sessions_results )[ 'email' ]
+    options = {
+      :body => {
+        :email => @user_email
+      }.to_json,
+      :headers => {
+        'Content-Type' => 'application/json'
+      }
+    }
+    @@user_data = jsonify( HTTParty.post( @@sign_up_ms_url + '/email' ), options )
+  end
+
 end

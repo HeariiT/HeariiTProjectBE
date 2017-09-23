@@ -1,6 +1,7 @@
 class SignUpController < ApplicationController
 
   before_action :set_options, only: [ :new_user, :new_session, :update_user ]
+  before_action :validate_token, only[ :update_user, :user_me ]
 
   def new_user
     results = HTTParty.post( @@sign_up_ms_url +  '/auth', @options )
@@ -42,7 +43,7 @@ class SignUpController < ApplicationController
 
   # TODO
   def user_me
-
+    
   end
 
   private
