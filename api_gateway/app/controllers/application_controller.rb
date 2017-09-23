@@ -8,6 +8,14 @@ class ApplicationController < ActionController::API
     JSON.parse( httparty_results.body )
   end
 
+  def default_error( msg, status, description )
+    return {
+      :message => msg,
+      :status => status,
+      :description => description
+    }
+  end
+
   def parse_options( params )
     return {
       :body => params.to_json,
