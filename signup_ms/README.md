@@ -21,10 +21,7 @@
 		"email":"juasmartinezbel@unal.edu.co",
 		"password": "123456789"
 	}
- 
-   >  http://192.168.99.101:3000/users
- + GET
- + Regresa todos los usuarios
+
 
    >  http://192.168.99.101:3000/users/{id}
  + GET
