@@ -8,17 +8,6 @@
 	},
 	"item": [
 		{
-			"name": "getAllSongs()",
-			"request": {
-				"url": "192.168.99.101:3002/songs",
-				"method": "GET",
-				"header": [],
-				"body": {},
-				"description": ""
-			},
-			"response": []
-		},
-		{
 			"name": "createSong(user_id, attachment)",
 			"request": {
 				"url": "192.168.99.101:3002/songs",

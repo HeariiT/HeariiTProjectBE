@@ -1,17 +1,6 @@
 # Leeme
 
 Rutas:
-
- * Obtener todas las canciones
-
- 	```
-    GET 192.168.99.101:3002/songs
-    
-    Acá pueden usar parámetros como firstResult y maxResult, recuerden:
-    
-    192.168.99.101:3002/songs?firstResult=xxx&maxResult=yyy
-    
-    ```  
     
  * Obtener una canción por ID
  
