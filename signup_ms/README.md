@@ -13,10 +13,6 @@
 	"last_name": "Martinez Beltrán"
 }
 
-   >  http://192.168.99.101:3000/auth
- + PUT
- + edita los usuarios
-
  
  >  http://192.168.99.101:3000/auth/sign_in
  + POST
@@ -34,11 +30,13 @@
  + GET
  + Regresa un usuario dado su id
 
-    >  http://192.168.99.101:3000/users/me
- + GET
- + Regresa mi usuario.
+    >  http://192.168.99.101:3000/email
+ + POST
+ + Regresa un usuario dado su email
 
-
+    >  http://192.168.99.101:3000/username
+ + POST
+ + Regresa un usuario dado su usuario
 
  Existen otras rutas, pero estas son nada más para cuestiones de prueba.
   
