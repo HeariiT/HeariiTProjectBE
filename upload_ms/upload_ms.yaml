@@ -58,6 +58,8 @@ paths:
       responses:
         '201':
           description: Created
+          schema:
+            $ref: '#/definitions/SongCreated'
         '400':
           description: Bad Request (provided invalid params)
           schema:
@@ -182,6 +184,17 @@ definitions:
         type: integer
       attachment:
         type: object
+  SongCreated:
+    type: object
+    properties:
+      message:
+        type: string
+      code:
+        type: integer
+      song_id:
+        type: integer
+      url:
+        type: string
   SongWithoutId:
     type: object
     properties:
