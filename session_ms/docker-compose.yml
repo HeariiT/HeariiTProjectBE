@@ -7,15 +7,9 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_DATABASE: session_db
-      MYSQL_USER: root
-      MYSQL_PASSWORD: 123
   session_ms:
     build: .
     ports:
       - "3001:3001"
     depends_on:
       - session_db
-  
-
-
-

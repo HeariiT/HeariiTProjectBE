@@ -4,9 +4,11 @@ import jwt
 from functools import wraps
 import requests
 import json
+import os
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:123@192.168.99.101:3303/session_db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -59,8 +61,6 @@ def validate():
 @app.route('/refresh', methods=['GET'])
 def refresh():
     token = None
-    data = request.get_json()
-    email = data['email']
     if 'x-access-token' in request.headers:
         token = request.headers['x-access-token']
 
@@ -80,6 +80,8 @@ def refresh():
     db.session.add(rToken)
     db.session.commit()
 
+
+    email = data['email']
     token = jwt.encode({'email':email,'exp':datetime.utcnow()+timedelta(minutes=15)},app.config['SECRET_KEY'])
     return jsonify({'token' : token.decode('UTF-8')})
 
@@ -100,7 +102,6 @@ def logout():
     db.session.add(rToken)
     db.session.commit()
     return  jsonify({'message' : 'You are out!'}), 200
-
 
 if __name__ == "__main__":
     db.init_app(app)
