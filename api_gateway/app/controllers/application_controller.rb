@@ -1,25 +1,48 @@
 class ApplicationController < ActionController::API
 
   @@sign_up_ms_url = 'http://192.168.99.101:3000'
+  @@sessions_ms_url = 'http://192.168.99.101:3001'
 
-  def user_id_exists?( user_id )
-    if user_id.nil?
-      msg = {
-        :message => 'User id not provided',
-        :code => 400,
-        :description => 'The user id couldnt be found in the request body'
-      }
-      render :json => msg, :status => :bad_request
-    end
-
-    _response = HTTParty.get( @@sign_up_ms_url + "/users/#{user_id}" )
-    unless _response.include? 'id'
-      msg = {
-        :message => 'Not found',
-        :code => 404,
-        :description => "User with id #{user_id} do not exist"
-      }
-      render :json => msg, :status => :not_found
-    end
+  def jsonify( httparty_results )
+    JSON.parse( httparty_results.body )
   end
+
+  def parse_options( params )
+    return {
+      :body => params.to_json,
+      :headers => {
+        'Content-Type' => 'application/json'
+      }
+    }
+  end
+
+  def parse_options_with_session( params )
+    return {
+      :body => params.to_json,
+      :headers => {
+        'Content-Type' => 'application/json',
+        'x-access-token' => request.headers[ 'x-access-token' ]
+      }
+    }
+  end
+
+  def validate_token
+    options = parse_options_with_session( {} )
+    sessions_results = HTTParty.post( @@sessions_ms_url + '/sign_in', options )
+    unless sessions_results.include? 'email'
+      render :json => jsonify( sessions_results ), :status => sessions_results.code
+      return
+    end
+    @user_email = jsonify( sessions_results )[ 'email' ]
+    options = {
+      :body => {
+        :email => @user_email
+      }.to_json,
+      :headers => {
+        'Content-Type' => 'application/json'
+      }
+    }
+    @@user_data = jsonify( HTTParty.post( @@sign_up_ms_url + '/email' ), options )
+  end
+
 end
