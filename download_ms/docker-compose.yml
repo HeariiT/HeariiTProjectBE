@@ -2,8 +2,9 @@ version: "2"
 services:
   download_db:
     image: mongo
+    command: mongod --port 3305
     ports:
-      - "27017:27017"
+      - "3305:3305"
   download_ms:
     build: .
     ports:
