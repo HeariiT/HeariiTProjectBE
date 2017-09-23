@@ -37,7 +37,7 @@ def login():
         return jsonify({'token' : token.decode('UTF-8')})
     return make_response('Could not verify!',401,{'WWW-Authenticate' : 'Basic realm="Login Required'})
 
-@app.route('/validate', methods=['GET'])
+@app.route('/validate', methods=['POST'])
 def validate():
     token = None
     if 'x-access-token' in request.headers:

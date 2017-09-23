@@ -1,7 +1,7 @@
 class SignUpController < ApplicationController
 
   before_action :set_options, only: [ :new_user, :new_session, :update_user ]
-  before_action :validate_token, only[ :update_user, :user_me ]
+  before_action :validate_token, only: [ :update_user, :user_me ]
 
   def new_user
     results = HTTParty.post( @@sign_up_ms_url +  '/auth', @options )
@@ -43,7 +43,8 @@ class SignUpController < ApplicationController
 
   # TODO
   def user_me
-    
+    results = HTTParty.get( @@sign_up_ms_url + "/users/#{@@user_data['id']}" )
+    render :json => jsonify( results ), :status => results.code
   end
 
   private

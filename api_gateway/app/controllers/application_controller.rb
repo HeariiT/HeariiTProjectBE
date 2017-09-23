@@ -27,8 +27,16 @@ class ApplicationController < ActionController::API
   end
 
   def validate_token
+    if request.headers[ 'x-access-token' ].nil?
+      msg = {
+        :message => 'No access-token found'
+      }
+      render :json => msg, :status => :bad_request
+      return
+    end
+
     options = parse_options_with_session( {} )
-    sessions_results = HTTParty.post( @@sessions_ms_url + '/sign_in', options )
+    sessions_results = HTTParty.post( @@sessions_ms_url + '/validate', options )
     unless sessions_results.include? 'email'
       render :json => jsonify( sessions_results ), :status => sessions_results.code
       return
@@ -42,7 +50,7 @@ class ApplicationController < ActionController::API
         'Content-Type' => 'application/json'
       }
     }
-    @@user_data = jsonify( HTTParty.post( @@sign_up_ms_url + '/email' ), options )
+    @@user_data = jsonify( HTTParty.post( @@sign_up_ms_url + '/email', options ) )
   end
 
 end
