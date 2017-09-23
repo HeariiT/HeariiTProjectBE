@@ -2,9 +2,9 @@
 
 
 ## After running /.start.sh
-  * To use session_ms you need to create the table in session_db, so if you are using rancher go to session_db 's shell and run the commands of [Link to Header](#mysql-table-creation)
+  * To use session_ms you need to create the table in session_db, so if you are using rancher go to session_db 's shell and run the commands of [Mysql table creation](#tCreation)
 
-## Mysql table creation:
+## Mysql table creation<a name="tCreation"></a>
   * mysql -u root -p
   * //password = 123;
   * use session_db;
