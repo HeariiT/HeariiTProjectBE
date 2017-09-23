@@ -3,6 +3,8 @@ class ApplicationController < ActionController::API
   @@sign_up_ms_url = 'http://192.168.99.101:3000'
   @@sessions_ms_url = 'http://192.168.99.101:3001'
   @@download_ms_url = 'http://192.168.99.101:3003'
+  @@category_classifier_ms_url = 'http://192.168.99.101:3004'
+  @@upload_ms_url = 'http://192.168.99.101:3002'
 
   def jsonify( httparty_results )
     JSON.parse( httparty_results.body )
@@ -60,6 +62,13 @@ class ApplicationController < ActionController::API
       }
     }
     @@user_data = jsonify( HTTParty.post( @@sign_up_ms_url + '/email', options ) )
+  end
+
+  def validate_user
+    unless @@user_data[ 'id' ].to_s == params[ :id ]
+      render :json => default_error( 'Unathorized', 401, 'You have no permission to handle that information' ), :status => 401
+      return
+    end
   end
 
 end

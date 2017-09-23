@@ -127,7 +127,7 @@ def new_match( user_id ):
             'error' : 'There is no match for file with id %s.' % ( request.json[ 'file_id' ] )
         }), 400
 
-@app.route( '/user/<int:user_id>/match/<string:file_id>', methods=[ 'DELETE' ] )
+@app.route( '/user/<int:user_id>/match/<int:file_id>', methods=[ 'DELETE' ] )
 def destroy_match( user_id, file_id ):
     results = match_table.query( matches_by_user_file_id )
 
@@ -139,7 +139,7 @@ def destroy_match( user_id, file_id ):
             }), 200
 
     return jsonify({
-        'error' : 'There is no match for file with id %s.' % ( file_id )
+        'error' : 'There is no match for file with id %i.' % ( file_id )
     }), 400
 
 @app.route( '/user/<int:user_id>/matches' )
@@ -180,6 +180,7 @@ def default_categories( ):
 @app.route( '/user/<int:user_id>/categories', methods=[ 'GET', 'POST', 'PUT', 'DELETE' ] )
 def user_categories( user_id ):
     results = user_categories_table.query( user_categories_view )
+    results2 = category_table.query( default_categories_view )
 
     if request.method == 'GET':
         data = []
@@ -197,6 +198,12 @@ def user_categories( user_id ):
 
         for row in results[ user_id ]:
             if row.value[ 1 ].lower( ) == request.json[ 'category_name' ].lower( ):
+                return jsonify({
+                    'error' : 'There is a category with the same name.'
+                }), 400
+
+        for row in results2:
+            if row.value.lower( ) == request.json[ 'category_name' ].lower( ):
                 return jsonify({
                     'error' : 'There is a category with the same name.'
                 }), 400
@@ -236,7 +243,7 @@ def user_categories( user_id ):
 
 ############################################## QUERYING ROUTES #########################################################
 
-@app.route( '/user/<int:user_id>/category_for_file/<string:file_id>' )
+@app.route( '/user/<int:user_id>/category_for_file/<int:file_id>' )
 def category_for_file( user_id, file_id ):
 
     results = match_table.query( matches_by_user )
@@ -265,7 +272,7 @@ def category_for_file( user_id, file_id ):
             }), 200
 
     return jsonify({
-        'error' : 'There is no file with id %s for user with id %i.' % ( file_id, user_id )
+        'error' : 'There is no file with id %i for user with id %i.' % ( file_id, user_id )
     })
 
 @app.route( '/user/<int:user_id>/files_for_category/<string:category_id>' )
