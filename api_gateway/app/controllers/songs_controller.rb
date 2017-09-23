@@ -1,6 +1,6 @@
 class SongsController < ApplicationController
 
-  before_action :validate_token, only: [ :index, :create, :show, :update, :destroy ]
+  # before_action :validate_token, only: [ :index, :create, :show, :update, :destroy ]
 
   #GET  /songs
   def index
@@ -20,8 +20,13 @@ class SongsController < ApplicationController
 
   #POST  /songs
   def create
-    if postNewSong(params["song"])
-      render json: @res
+    if checkUser(params["user"])
+      if uploadSong(params["user"],params["attachment"])
+        if postNewSong(params, @res)
+          render json: @res
+          return
+        end
+      end
     end
     renderErrors();
   end
@@ -44,8 +49,10 @@ class SongsController < ApplicationController
 
   #DELETE  /songs/:id
   def destroy
-    if deleteSong(params["id"])
-      render json: @res
+    if deleteDataSong(params["id"])
+      if deleteSong(params["id"])
+        render json: @res
+      end
     end
     renderErrors();
   end
@@ -108,14 +115,26 @@ class SongsController < ApplicationController
     end
   end
 
-  def postNewSong(song)
-    options = {
-      :body => song.to_json,
-      :headers => {
-        'Content-Type' => 'application/json'
-      }
+  def uploadSong(user, song)
+    response = RestClient.post @@upload_ms_url + "/songs", {:user_id => user, :attachment => song}
+    response = JSON.parse(response.body)
+    if response["code"] == 201
+      @res = response
+      return true
+    else
+      @error = response
+      return false
+    end
+  end
+
+  def postNewSong(params, res)
+    response = RestClient.post @@download_ms_url + "/songs",
+    {
+      :user => params["user"],
+      :id => res["song_id"],
+      :url => res["url"],
+      :title => params["title"],
     }
-    response = HTTParty.post(@@download_ms_url + "/songs", options)
     if response.code == 200
       @res = JSON.parse(response.body)
       return true
@@ -137,12 +156,23 @@ class SongsController < ApplicationController
       @res = JSON.parse(response.body)
       return true
     else
-      @error = response
+      @error = JSON.parse(response.body)
       return false
     end
   end
 
   def deleteSong(id)
+    response = RestClient.delete @@upload_ms_url + "/songs" + id.to_s
+    if response.code == 200
+      @res = JSON.parse(response.body)
+      return true
+    else
+      @error = JSON.parse(response.body)
+      return false
+    end
+  end
+
+  def deleteDataSong(id)
     response = HTTParty.delete(@@download_ms_url + "/songs/" + id.to_s)
     if response.code == 200
       @res = JSON.parse(response.body)
