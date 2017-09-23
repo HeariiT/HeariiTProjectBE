@@ -1,7 +1,5 @@
 #Test with: http://editor.swagger.io/
 
-#Test with: http://editor.swagger.io/
-
 swagger: '2.0'
 info:
   version: 1.0.0
@@ -58,7 +56,7 @@ paths:
           type: string
         - name: login credentials
           in: body
-          required: true
+          required: false
           description: User's email and password
           schema:
             $ref: '#/definitions/Login'
@@ -86,6 +84,12 @@ paths:
           description: Token to validate
           required: True
           type: string
+        - name: login credentials
+          in: body
+          required: false
+          description: User's email and password
+          schema:
+            $ref: '#/definitions/Login'
       responses:
         '200':
           description: email
@@ -107,14 +111,20 @@ paths:
       parameters:
         - name: x-access-token
           in: header
-          description: Token to validate
+          description: Token to revoke
           required: True
           type: string
+        - name: login credentials
+          in: body
+          required: false
+          description: User's email and password
+          schema:
+            $ref: '#/definitions/Login'
       responses:
         '200':
-          description: email
+          description: new Token
           schema:
-            $ref: '#/definitions/Email'
+            $ref: '#/definitions/Token'
         '401':
           description: Could not verify!
           schema:
