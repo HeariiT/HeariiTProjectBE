@@ -1,7 +1,7 @@
 class SignUpController < ApplicationController
 
   before_action :set_options, only: [ :new_user, :new_session, :update_user ]
-  before_action :validate_token, only: [ :update_user, :user_me ]
+  before_action :validate_token, only: [ :update_user, :user_index ]
 
   def new_user
     results = HTTParty.post( @@sign_up_ms_url +  '/auth', @options )
@@ -27,24 +27,21 @@ class SignUpController < ApplicationController
 
   # TODO
   def update_user
-    results = HTTParty.put( @@sign_up_ms_url + '/auth', @options )
-    render :json => jsonify( results ), :status => results.code
-  end
-
-  def all_users
-    results = HTTParty.get( @@sign_up_ms_url + '/users' )
-    render :json => jsonify( results ), :status => results.code
+    if @@user_data[ 'id' ].to_s == params[ :id ]
+      results = HTTParty.put( @@sign_up_ms_url + "/users/#{params[:id]}", @options )
+      render :json => jsonify( results ), :status => results.code
+    else
+      render :json => default_error( 'Unathorized', 401, 'Yo have no permission to update that information' ), :status => 401
+    end
   end
 
   def user_index
-    results = HTTParty.get( @@sign_up_ms_url + "/users/#{params[:id]}" )
-    render :json => jsonify( results ), :status => results.code
-  end
-
-  # TODO
-  def user_me
-    results = HTTParty.get( @@sign_up_ms_url + "/users/#{@@user_data['id']}" )
-    render :json => jsonify( results ), :status => results.code
+    if @@user_data[ 'id' ].to_s == params[ :id ]
+      results = HTTParty.get( @@sign_up_ms_url + "/users/#{params[:id]}" )
+      render :json => jsonify( results ), :status => results.code
+    else
+      render :json => default_error( 'Unathorized', 401, 'Yo have no permission to get that information' ), :status => 401
+    end
   end
 
   private
