@@ -61,6 +61,14 @@ def validate():
 @app.route('/refresh', methods=['POST'])
 def refresh():
     token = None
+
+    data1 = request.get_json()
+
+    if not data1 or not data1['email']:
+        return make_response('Could not find a email', 401, {'WWW-Authenticate' : 'Basic realm="Login required!"'})
+
+    email = data1['email']
+
     if 'x-access-token' in request.headers:
         token = request.headers['x-access-token']
 
@@ -74,7 +82,8 @@ def refresh():
     try:
         data = jwt.decode(token,app.config['SECRET_KEY'])
     except:
-        return  jsonify({'message' : 'Token is invalid'}), 401
+        token = jwt.encode({'email':email,'exp':datetime.utcnow()+timedelta(minutes=15)},app.config['SECRET_KEY'])
+        return jsonify({'token' : token.decode('UTF-8')})
 
     rToken = RevokedToken( rToken = token )
     db.session.add(rToken)
