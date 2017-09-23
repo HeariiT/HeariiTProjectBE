@@ -39,7 +39,7 @@ def login():
         return jsonify({'token' : token.decode('UTF-8')})
     return make_response('Could not verify!',401,{'WWW-Authenticate' : 'Basic realm="Login Required'})
 
-@app.route('/validate', methods=['GET'])
+@app.route('/validate', methods=['POST'])
 def validate():
     token = None
     if 'x-access-token' in request.headers:
@@ -58,7 +58,7 @@ def validate():
         return  jsonify({'message' : 'Token is invalid'}), 401
     return jsonify({'email': data['email']})
 
-@app.route('/refresh', methods=['GET'])
+@app.route('/refresh', methods=['POST'])
 def refresh():
     token = None
     if 'x-access-token' in request.headers:

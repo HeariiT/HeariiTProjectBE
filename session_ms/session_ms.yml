@@ -1,5 +1,7 @@
 #Test with: http://editor.swagger.io/
 
+#Test with: http://editor.swagger.io/
+
 swagger: '2.0'
 info:
   version: 1.0.0
@@ -75,7 +77,7 @@ paths:
             $ref: '#/definitions/ErrorModel'
 
   /validate:
-    get:
+    post:
       summary: Validates if a JWT token is valid or not,  if is revoked or not
       operationId: validate
       parameters:
@@ -99,7 +101,7 @@ paths:
             $ref: '#/definitions/ErrorModel'
 
   /refresh:
-    get:
+    post:
       summary: Adds old token to revokedTokens and returns a new one
       operationId: refresh
       parameters:
