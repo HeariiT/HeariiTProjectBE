@@ -31,7 +31,7 @@ class SignUpController < ApplicationController
       results = HTTParty.put( @@sign_up_ms_url + "/users/#{params[:id]}", @options )
       render :json => jsonify( results ), :status => results.code
     else
-      render :json => default_error( 'Unathorized', 401, 'Yo have no permission to update that information' ), :status => 401
+      render :json => default_error( 'Unathorized', 401, 'You have no permission to update that information' ), :status => 401
     end
   end
 
