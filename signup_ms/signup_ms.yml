@@ -34,6 +34,8 @@ paths:
       responses:
         '200':
           description: User created successfully.
+          schema:
+            $ref: "#/definitions/Users"
         '400':
           description: Bad Request.
           schema:
@@ -73,37 +75,6 @@ paths:
           description: Internal Server Error.
           schema:
             $ref: '#/definitions/ErrorModel'
-  /auth/:
-    put:
-      summary: Edits the User logged in
-      parameters:
-        - name: auth
-          in: body
-          required: true
-          description: Edits the user if he is logged in
-          schema:
-            $ref: '#/definitions/UsersSignUp'
-            
-      responses:
-        '200':
-          description: OK.
-        '400':
-          description: Bad Request.
-          schema:
-            $ref: '#/definitions/ErrorModel'
-        '401':
-          description: Unathorized.
-          schema:
-            $ref: '#/definitions/ErrorModel'
-        '422':
-          description: Unprocessable Entity.
-          schema:
-            $ref: '#/definitions/ParameterError'
-        '500':
-          description: Internal Server Error.
-          schema:
-            $ref: '#/definitions/ErrorModel'
-
   /users:
     get:
       summary: Returns all the users
@@ -145,22 +116,6 @@ paths:
           schema:
             $ref: '#/definitions/ErrorModel'
             
-  /users/me:
-    get:
-      summary: My profile
-      responses:
-        '200':
-          description: Ok
-          schema:
-            $ref: '#/definitions/Users'
-        '401':
-          description: Unathorized.
-          schema:
-            $ref: '#/definitions/ErrorModel'
-        '500':
-          description: unexpected error
-          schema:
-            $ref: '#/definitions/ErrorModel'
   /email:
     post:
       summary: Returns an User by it's email
@@ -174,6 +129,36 @@ paths:
       responses:
         '200':
           description: OK
+          schema:
+            $ref: "#/definitions/Users"
+        '400':
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '404':
+          description: User not Found.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /username:
+    post:
+      summary: Returns an User by it's Username
+      parameters:
+        - name: auth
+          in: body
+          required: true
+          description: Username of the user to find
+          schema:
+            $ref: '#/definitions/SearchUsername'
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: "#/definitions/Users"
         '400':
           description: Bad Request.
           schema:
@@ -205,8 +190,6 @@ definitions:
         type: integer
       email:
         type: string 
-      password:
-        type: string
       username:
         type: string
       first_name:
@@ -240,6 +223,12 @@ definitions:
     type: object 
     properties:
       email:
+        type: string
+
+  SearchUsername:
+    type: object 
+    properties:
+      username:
         type: string
 # Errors
   ErrorModel:

@@ -17,20 +17,11 @@ class UsersController < ApplicationController
 
   def show
     @user=User.find(params[:id])
-    
     render json: @user
-
-  end
-
-  def showme
-    @user=current_user
-    render json: @user
-
   end
 
   def email_exist
     @user=User.where('email = (?)', params[:email])
-
     unless @user.empty?
       @user=@user.first
       render json: @user
@@ -44,5 +35,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def username_exist
+    @user=User.where('username = (?)', params[:username])
+    unless @user.empty?
+      @user=@user.first
+      render json: @user
+    else
+      render json: {
+        message: "User not found.",
+        code: 404,
+        description: "Username not found. User might not exist"
+      }, status: 404
+      return
+    end
+  end
 
 end
