@@ -116,8 +116,8 @@ paths:
           type: string
         - name: login credentials
           in: body
-          required: false
-          description: User's email and password
+          required: True
+          description: User's email
           schema:
             $ref: '#/definitions/Login'
       responses:

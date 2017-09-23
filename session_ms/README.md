@@ -48,8 +48,10 @@
 
   + Required Headers 'x-access-token' and a valid token
 
-  + Body could be empty
-  + {}
+  + Body with email required
+  + {  
+      'email' : 'juasmartinezbel@unal.edu.co!'
+    }
 
   + returns a  new JWT token
 
