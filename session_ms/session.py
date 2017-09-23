@@ -58,7 +58,7 @@ def validate():
         return  jsonify({'message' : 'Token is invalid'}), 401
     return jsonify({'email': data['email']})
 
-@app.route('/refresh', methods=['GET'])
+@app.route('/refresh', methods=['POST'])
 def refresh():
     token = None
     if 'x-access-token' in request.headers:

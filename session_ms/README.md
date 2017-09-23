@@ -43,10 +43,13 @@
   }
 
   >  http://192.168.99.101:3001/refresh
-  + GET
+  + POST
   + Refresh Token
 
   + Required Headers 'x-access-token' and a valid token
+
+  + Body could be empty
+  + {}
 
   + returns a  new JWT token
 
@@ -54,10 +57,13 @@
   }
 
   >  http://192.168.99.101:3001/validate
-  + GET
+  + POST
   + Validate current token
 
   + Required Headers 'x-access-token' and a  token to validate
+
+  + Body could be empty
+  + {}
 
   + returns message
   {
