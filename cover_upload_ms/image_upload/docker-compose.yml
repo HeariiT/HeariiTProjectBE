@@ -1,0 +1,19 @@
+version: '2'
+services:
+    cover_upload_db:
+        image: mysql:latest
+        ports:
+            - "3307:3307"
+        environment:
+            MYSQL_ROOT_PASSWORD: 12345678
+            MYSQL_HOST: cover_upload_db
+            MYSQL_DATABASE: song_cover
+    cover_upload_ms:
+        build: .
+        command: python3 manage.py makemigrations
+        command: python3 manage.py migrate
+        command: python3 manage.py runserver 0.0.0.0:3005
+        ports:
+            - "3005:3005"
+        depends_on:
+            - cover_upload_db
