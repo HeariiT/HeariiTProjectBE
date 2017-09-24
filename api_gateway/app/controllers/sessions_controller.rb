@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
 
   private
     def set_options
-      @options = parse_options_with_session({})
+      @options = parse_options_with_session(params)
     end
 
 end

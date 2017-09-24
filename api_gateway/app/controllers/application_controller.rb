@@ -65,11 +65,4 @@ class ApplicationController < ActionController::API
     @@user_data = jsonify( HTTParty.post( @@sign_up_ms_url + '/email', options ) )
   end
 
-  def validate_user
-    unless @@user_data[ 'id' ].to_s == params[ :id ]
-      render :json => default_error( 'Unathorized', 401, 'You have no permission to handle that information' ), :status => 401
-      return
-    end
-  end
-
 end

@@ -27,21 +27,13 @@ class SignUpController < ApplicationController
 
   # TODO
   def update_user
-    if @@user_data[ 'id' ].to_s == params[ :id ]
-      results = HTTParty.put( @@sign_up_ms_url + "/users/#{params[:id]}", @options )
-      render :json => jsonify( results ), :status => results.code
-    else
-      render :json => default_error( 'Unathorized', 401, 'You have no permission to update that information' ), :status => 401
-    end
+    results = HTTParty.put( @@sign_up_ms_url + "/users/#{@@user_data['id']}", @options )
+    render :json => jsonify( results ), :status => results.code
   end
 
   def user_index
-    if @@user_data[ 'id' ].to_s == params[ :id ]
-      results = HTTParty.get( @@sign_up_ms_url + "/users/#{params[:id]}" )
-      render :json => jsonify( results ), :status => results.code
-    else
-      render :json => default_error( 'Unathorized', 401, 'Yo have no permission to get that information' ), :status => 401
-    end
+    results = HTTParty.get( @@sign_up_ms_url + "/users/#{@@user_data['id']}" )
+    render :json => jsonify( results ), :status => results.code
   end
 
   private

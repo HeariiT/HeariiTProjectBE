@@ -1,27 +1,26 @@
 class CategoryClassifierController < ApplicationController
 
   before_action :validate_token, except: [ :all_categories ]
-  before_action :validate_user, except: [ :all_categories ]
   before_action :validate_song, only: [ :create, :update, :delete, :category_for_file ]
   before_action :set_options, only: [ :create, :update, :create_user_categories, :update_user_categories, :delete_user_categories ]
 
   def index
-    results = HTTParty.get( @@category_classifier_ms_url + "/user/#{params[:id]}/matches" )
+    results = HTTParty.get( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/matches" )
     render :json => jsonify( results ), :status => results.code
   end
 
   def create
-    results = HTTParty.post( @@category_classifier_ms_url + "/user/#{params[:id]}/match", @options )
+    results = HTTParty.post( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/match", @options )
     render :json => jsonify( results ), :status => results.code
   end
 
   def update
-    results = HTTParty.put( @@category_classifier_ms_url + "/user/#{params[:id]}/match", @options )
+    results = HTTParty.put( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/match", @options )
     render :json => jsonify( results ), :status => results.code
   end
 
   def delete
-    results = HTTParty.delete( @@category_classifier_ms_url + "/user/#{params[:id]}/match/#{params[:file_id]}" )
+    results = HTTParty.delete( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/match/#{params[:file_id]}" )
     render :json => jsonify( results ), :status => results.code
   end
 
@@ -31,32 +30,32 @@ class CategoryClassifierController < ApplicationController
   end
 
   def user_categories
-    results = HTTParty.get( @@category_classifier_ms_url + "/user/#{params[:id]}/categories" )
+    results = HTTParty.get( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/categories" )
     render :json => jsonify( results ), :status => results.code
   end
 
   def create_user_categories
-    results = HTTParty.post( @@category_classifier_ms_url + "/user/#{params[:id]}/categories", @options )
+    results = HTTParty.post( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/categories", @options )
     render :json => jsonify( results ), :status => results.code
   end
 
   def update_user_categories
-    results = HTTParty.put( @@category_classifier_ms_url + "/user/#{params[:id]}/categories", @options )
+    results = HTTParty.put( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/categories", @options )
     render :json => jsonify( results ), :status => results.code
   end
 
   def delete_user_categories
-    results = HTTParty.delete( @@category_classifier_ms_url + "/user/#{params[:id]}/categories", @options )
+    results = HTTParty.delete( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/categories", @options )
     render :json => jsonify( results ), :status => results.code
   end
 
   def category_for_file
-    results = HTTParty.get( @@category_classifier_ms_url + "/user/#{params[:id]}/category_for_file/#{params[:file_id]}" )
+    results = HTTParty.get( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/category_for_file/#{params[:file_id]}" )
     render :json => jsonify( results ), :status => results.code
   end
 
   def files_for_category
-    results = HTTParty.get( @@category_classifier_ms_url + "/user/#{params[:id]}/files_for_category/#{params[:category_id]}" )
+    results = HTTParty.get( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/files_for_category/#{params[:category_id]}" )
     render :json => jsonify( results ), :status => results.code
   end
 
