@@ -1,47 +1,42 @@
 class SongsController < ApplicationController
 
-  # before_action :validate_token, only: [ :index, :create, :show, :update, :destroy ]
+  before_action :validate_token
 
   #GET  /songs
   def index
-    if params[:user] != nil
-      if checkUser(params[:user])
-        if getSongsByUser(@user["id"])
-          render json: @songs
-        end
-      end
-    else
-      if getAllSongs()
-        render json: @songs
-      end
+    if getSongsByUser( @@user_data[ "id" ] )
+      render json: @songs
     end
+    #else
+      #if getAllSongs()
+      #  render json: @songs
+      #end
+    #end
     renderErrors();
   end
 
   #POST  /songs
   def create
-    if checkUser(params["user"])
-      if uploadSong(params["user"],params["attachment"])
+      if uploadSong(params["attachment"])
         if postNewSong(params, @res)
           render json: @res
           return
         end
       end
-    end
     renderErrors();
   end
 
   #GET  /songs/:id
   def show
     if getSongByID(params["id"])
-      render json: @song
+      render json: @songs
     end
     renderErrors();
   end
 
   #PUT  /songs/:id
   def update
-    if updateSong(params["id"], params["song"])
+    if updateSong
       render json: @res
     end
     renderErrors();
@@ -71,17 +66,6 @@ class SongsController < ApplicationController
     end
   end
 
-  def checkUser(id)
-    response = HTTParty.get(@@sign_up_ms_url + "/users/" + id.to_s)
-    if response.code == 200
-      @user = JSON.parse(response.body)
-      return true
-    else
-      @error = response
-      return false
-    end
-  end
-
   def getAllSongs()
     response = HTTParty.get(@@download_ms_url + "/songs")
     if response.code == 200
@@ -95,6 +79,7 @@ class SongsController < ApplicationController
 
   def getSongByID(id)
     response = HTTParty.get(@@download_ms_url + "/songs/" + id.to_s)
+    puts response
     if response.code == 200
       @songs = JSON.parse(response.body)
       return true
@@ -105,9 +90,9 @@ class SongsController < ApplicationController
   end
 
   def getSongsByUser(user)
-    response = HTTParty.get(@@download_ms_url + "/songs?user=" + user.to_s)
+    response = HTTParty.get(@@download_ms_url + "/songs?user=#{user}")
     if response.code == 200
-      @songs = JSON.parse(response.body)
+      @songs = jsonify( response )
       return true
     else
       @error = response
@@ -115,9 +100,9 @@ class SongsController < ApplicationController
     end
   end
 
-  def uploadSong(user, song)
-    response = RestClient.post @@upload_ms_url + "/songs", {:user_id => user, :attachment => song}
-    response = JSON.parse(response.body)
+  def uploadSong(song)
+    response = RestClient.post @@upload_ms_url + "/songs", {:user_id => @@user_data['id'], :attachment => song}
+    response = jsonify( response )
     if response["code"] == 201
       @res = response
       return true
@@ -130,7 +115,7 @@ class SongsController < ApplicationController
   def postNewSong(params, res)
     response = RestClient.post @@download_ms_url + "/songs",
     {
-      :user => params["user"],
+      :user => @@user_data['id'],
       :id => res["song_id"],
       :url => res["url"],
       :title => params["title"],
@@ -144,14 +129,19 @@ class SongsController < ApplicationController
     end
   end
 
-  def updateSong(id, song)
+  def updateSong
     options = {
-      :body => song.to_json,
+      :body => {
+        :title => params[:title],
+        :id => params[:id],
+        :url => params[:url],
+        :user => @@user_data['id']
+      }.to_json,
       :headers => {
         'Content-Type' => 'application/json'
       }
     }
-    response = HTTParty.put(@@download_ms_url + "/songs/" + id.to_s, options)
+    response = HTTParty.put(@@download_ms_url + "/songs/" + params[:id], options)
     if response.code == 200
       @res = JSON.parse(response.body)
       return true

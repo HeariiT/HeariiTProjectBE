@@ -56,7 +56,19 @@ class CategoryClassifierController < ApplicationController
 
   def files_for_category
     results = HTTParty.get( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/files_for_category/#{params[:category_id]}" )
-    render :json => jsonify( results ), :status => results.code
+    if results.code == 200
+      data = []
+      jsonify( results )[ 'data' ].each do |song|
+        song_data = HTTParty.get( @@download_ms_url + "/songs/#{song['file_id']}" )
+        data.push( jsonify( song_data ) )
+      end
+      ans = {
+        :data => data
+      }
+      render :json => ans, :status => results.code
+    else
+      render :json => jsonify( results ), :status => results.code
+    end
   end
 
   private
