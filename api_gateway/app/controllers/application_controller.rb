@@ -6,6 +6,7 @@ class ApplicationController < ActionController::API
   @@download_ms_url = 'http://192.168.99.101:3003'
   @@category_classifier_ms_url = 'http://192.168.99.101:3004'
   @@upload_ms_url = 'http://192.168.99.101:3002'
+  @@cover_upload_ms_url = 'http://192.168.99.101:3005'
 
   def jsonify( httparty_results )
     JSON.parse( httparty_results.body )
