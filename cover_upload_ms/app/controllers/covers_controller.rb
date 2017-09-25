@@ -35,7 +35,38 @@ class CoversController < ApplicationController
 
   # DELETE /covers/1
   def destroy
-    @cover.destroy
+
+    unless is_number?(params[:id])
+      render json: 
+      {
+        message: "Not Acceptable (Invalid Params)",
+        code: 406,
+        description: "Cover id must be of type: integer"
+      }, status: 406
+      return
+    end
+
+    unless @cover.nil?
+      if @cover.destroy
+        render json:
+        {
+          message: "Ok",
+          code: 200,
+          description: "Successfully deleted cover"
+        }, status: 200
+        return
+      end
+    else
+      render json:
+      {
+        message: "Not Found",
+        code: 404,
+        description: "Cover with id=#{params[:id]} was not found!"
+      }, status: 404
+      return
+    end
+
+
   end
 
   private
@@ -46,6 +77,12 @@ class CoversController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def cover_params
-      params.fetch(:cover, {})
+      params.require(:cover).permit(:picture)
     end
+
+    def is_number? string
+      true if Integer(string) rescue false
+    end
+
+
 end

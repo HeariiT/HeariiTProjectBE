@@ -8,6 +8,7 @@ end
 gem 'carrierwave', '~> 1.0'
 gem 'therubyracer', :platforms => :ruby
 gem 'execjs'
+gem 'active_model_serializers', '~> 0.10.5'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'
