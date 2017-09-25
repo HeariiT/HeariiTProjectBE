@@ -78,11 +78,11 @@ WSGI_APPLICATION = 'image_upload.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'update_cover_ms',
         'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'update_cover_db',
         'USER': 'root',
         'PASSWORD': '12345678',
-        'HOST': 'cover_upload_db',
+        'HOST': '192.168.99.101',
         'PORT': '3307',
         'OPTIONS': {
           'autocommit': True,
