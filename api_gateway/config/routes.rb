@@ -31,10 +31,10 @@ Rails.application.routes.draw do
   get '/category_for_file/:file_id', to: 'category_classifier#category_for_file'
   get '/files_for_category/:category_id', to: 'category_classifier#files_for_category'
 
-  # Routes for category_classifier_ms
-  get    '/cover',        to: 'covers#index'
-  post   '/cover',          to: 'covers#create'
-  put    '/cover',          to: 'covers#update'
-  delete '/match/:file_id', to: 'covers#delete'
+  # Routes for cover_upload_ms
+  get    '/covers',          to: 'covers#index'
+  get    '/covers/:id'  to: 'covers#show'
+  post   '/covers/new',          to: 'covers#create'
+  delete '/covers/:id/delete', to: 'covers#delete'
 
 end

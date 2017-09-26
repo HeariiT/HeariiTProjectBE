@@ -19,7 +19,7 @@ produces:
 paths:
 
   /sign_up:
-  
+
     post:
       summary: Creates a new user
       parameters:
@@ -46,9 +46,9 @@ paths:
           description: Internal Server Error.
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+
   /sign_in:
-  
+
     post:
       summary: Creates a new session
       parameters:
@@ -58,7 +58,7 @@ paths:
           description: User logged in successfully
           schema:
             $ref: '#/definitions/Login'
-            
+
       responses:
         '200':
           description: OK
@@ -76,7 +76,7 @@ paths:
           description: Internal Server Error.
           schema:
             $ref: '#/definitions/ErrorModel'
-  
+
   /refresh:
     post:
       summary: Refresh a given token
@@ -106,9 +106,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+
   /sign_out:
-  
+
     post:
       summary: Creates a new RevokedToken row in session_db
       operationId: logout
@@ -131,9 +131,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-    
+
   /my:
-    
+
     get:
       summary: User profile
       parameters:
@@ -155,10 +155,10 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-    
+
     put:
       summary: Edits the user
-      
+
       parameters:
         - name: x-access-token
           in: header
@@ -171,7 +171,7 @@ paths:
           description: Edits the user if he is logged in
           schema:
             $ref: '#/definitions/UsersEdit'
-              
+
       responses:
         '200':
           description: OK.
@@ -257,7 +257,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+
   /songs/{id}:
     get:
       summary: Returns a song with the given id
@@ -363,7 +363,7 @@ paths:
           description: unexpected error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+
   /matches:
     get:
       summary: Returns all user matches
@@ -384,7 +384,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel2'
-            
+
   /match:
     post:
       summary: Creates a new match
@@ -445,7 +445,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+
   /match/{f_id}:
 
     delete:
@@ -476,7 +476,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+
   /categories:
     get:
       summary: Returns all default categories
@@ -491,7 +491,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-  
+
   /user_categories:
     get:
       summary: Returns all user categories
@@ -511,7 +511,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+
     post:
       summary: Create new category for given user
       operationId: createUserCategory
@@ -586,7 +586,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+
   /category_for_file/{f_id}:
     get:
       summary: Returns the category for a given file
@@ -611,7 +611,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
-            
+
   /files_for_category/{c_id}:
     get:
       summary: Returns the files for a given category
@@ -636,8 +636,109 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/ErrorModel'
+  /covers:
+    get:
+      summary: Returns a list of covers
+      operationId: getSongCovers
+      parameters:
+        - name: x-access-token
+          in: header
+          description: Token for revocation
+          required: True
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/CoverList'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
 
-            
+  /covers/{id}:
+     get:
+      summary: Returns a cover for given id
+      operationId: getSongCover
+      parameters:
+        - name: x-access-token
+          in: header
+          description: Token for revocation
+          required: True
+          type: string
+        - name: id
+          in: path
+          description: The id of the cover
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/SongCover'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+
+  /covers/new:
+    post:
+      summary: Create new cover for given song
+      operationId: createSongCover
+      parameters:
+        - name: x-access-token
+          in: header
+          description: Token for revocation
+          required: True
+          type: string
+        - name: cover
+          in: body
+          description: cover object
+          required: true
+          schema:
+            $ref: '#/definitions/NewCover'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/Cover'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /covers/{id}/delete:
+    delete:
+      summary: Deletes an existing cover for given song
+      operationId: deleteSongCover
+      parameters:
+        - name: x-access-token
+          in: header
+          description: Token for revocation
+          required: True
+          type: string
+        - name: cover
+          in: body
+          description: Cover object
+          required: true
+          schema:
+            $ref: '#/definitions/DropCover'
+        - name: id
+          in: path
+          description: The id of the cover
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Completed'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
 definitions:
   Song:
     type: object
@@ -700,12 +801,12 @@ definitions:
         type: string
       request:
         type: object
-  
+
   UsersSignUp:
-    type: object 
+    type: object
     properties:
       email:
-        type: string 
+        type: string
       password:
         type: string
       username:
@@ -714,14 +815,14 @@ definitions:
         type: string
       last_name:
         type: string
-        
+
   Users:
-    type: object 
+    type: object
     properties:
       id:
         type: integer
       email:
-        type: string 
+        type: string
       username:
         type: string
       first_name:
@@ -730,7 +831,7 @@ definitions:
         type: string
 
   UsersEdit:
-    type: object 
+    type: object
     properties:
       username:
         type: string
@@ -738,11 +839,11 @@ definitions:
         type: string
       last_name:
         type: string
-        
+
   UserInf:
     type: object
     properties:
-        id: 
+        id:
           type: integer
         email:
           type: string
@@ -756,16 +857,16 @@ definitions:
           type: string
         uid:
           type: string
-  
+
   UserCreated:
-    type: object 
+    type: object
     properties:
       status:
-        type: string 
+        type: string
       data:
         type: object
         properties:
-          id: 
+          id:
             type: integer
           email:
             type: string
@@ -783,21 +884,21 @@ definitions:
             type: string
           updated_at:
             type: string
-            
+
   Login:
-    type: object 
+    type: object
     properties:
       email:
-        type: string 
+        type: string
       password:
         type: string
-        
+
   Refresh:
-    type: object 
+    type: object
     properties:
       email:
-        type: string 
-        
+        type: string
+
   ParameterError:
     type: object
     required:
@@ -806,7 +907,7 @@ definitions:
       - data
       - errors
     properties:
-      message: 
+      message:
         type: string
       code:
         type: number
@@ -814,25 +915,25 @@ definitions:
         $ref:  '#/definitions/UsersSignUp'
       errors:
         type: object
-        
+
   LogO:
     type: object
     properties:
       message:
         type: string
-        
+
   NotVerify:
     type: object
     properties:
       WWW-Authenticate:
         type: string
-        
+
   Token:
     type: object
     properties:
       token:
         type: string
-        
+
   Match:
     type: object
     properties:
@@ -900,13 +1001,53 @@ definitions:
         items:
           $ref: '#/definitions/Song'
 
+# Cover
+  Cover:
+    type: object
+    properties:
+      cover_id:
+        type: string
+      picture_url:
+        type: string
+
+  CoverList:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Cover'
+
+  NewCover:
+    type: object
+    properties:
+      picture:
+        type: string
+        format: jpg,png
+
+  SongCover:
+    type: object
+    properties:
+      data:
+        type: array
+        items:
+          $ref: '#/definitions/Cover'
+
+  DropCover:
+    type: object
+    properties:
+      cover_id:
+        type: string
+
+
+
 # Other
   Completed:
     type: object
     properties:
       message:
         type: string
-        
+
   ErrorModel2:
       type: object
       properties:
