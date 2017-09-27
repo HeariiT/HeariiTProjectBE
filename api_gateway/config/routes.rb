@@ -33,7 +33,7 @@ Rails.application.routes.draw do
 
   # Routes for cover_upload_ms
   get    '/covers',          to: 'covers#index'
-  get    '/covers/:id'  to: 'covers#show'
+  get    '/covers/:id',  to: 'covers#show'
   post   '/covers/new',          to: 'covers#create'
   delete '/covers/:id/delete', to: 'covers#delete'
 
