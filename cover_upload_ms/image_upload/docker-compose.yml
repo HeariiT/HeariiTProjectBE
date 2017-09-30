@@ -1,21 +1,13 @@
 version: '2'
 services:
     cover_upload_db:
-        image: mysql:latest
+        image: postgres:latest
         ports:
-            - "3307:3307"
-        environment:
-            MYSQL_ROOT_PASSWORD: 12345678
-            MYSQL_HOST: cover_upload_db
-            MYSQL_DATABASE: cover_upload_db
+            - "5432:5432"
     cover_upload_ms:
         build: .
+        command: bash -c "python manage.py makemigrations && python manage.py migrate && python3 manage.py runserver 0.0.0.0:3005"
         ports:
             - "3005:3005"
         depends_on:
             - cover_upload_db
-        links:
-            - cover_upload_db
-        command: python3 manage.py makemigrations
-        command: python3 manage.py migrate
-        command: python3 manage.py runserver 0.0.0.0:3005

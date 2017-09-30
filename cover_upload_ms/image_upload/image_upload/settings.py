@@ -25,7 +25,7 @@ SECRET_KEY = 'u8!39pj^&pzauszs4t5g^r(f&ke9rwdl4#_m-@l%wm7z18j%#h'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.99.101']
 
 
 # Application definition
@@ -78,16 +78,12 @@ WSGI_APPLICATION = 'image_upload.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'update_cover_db',
-        'USER': 'root',
-        'PASSWORD': '12345678',
-        'HOST': '192.168.99.101',
-        'PORT': '3307',
-        'OPTIONS': {
-          'autocommit': True,
-        },
-    }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'HOST': 'cover_upload_db',
+        'PORT': 5432,
+        }
 }
 
 
@@ -108,7 +104,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.11/topics/i18n/

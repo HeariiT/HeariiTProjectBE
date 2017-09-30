@@ -1,7 +1,7 @@
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from upload.models import UploadImage
+from upload.models import Covers
 from upload_rest.serializers import UploadImageSerializer
 import json
 
@@ -11,7 +11,7 @@ def snippet_list(request):
     List all snippets, or create a new snippet.
     """
     if request.method == 'GET':
-        snippets = UploadImage.objects.all()
+        snippets = Covers.objects.all()
         serializer = UploadImageSerializer(snippets, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -31,8 +31,8 @@ def snippet_detail(request, pk):
     Retrieve, update or delete a snippet instance.
     """
     try:
-        snippet = UploadImage.objects.get(song_id=pk)
-    except UploadImage.DoesNotExist:
+        snippet = Covers.objects.get(song_id=pk)
+    except Covers.DoesNotExist:
         response404 = {'status': 404, 'message': 'Not Found'}
         return Response(data=response404, status=status.HTTP_404_NOT_FOUND)
     if request.method == 'GET':

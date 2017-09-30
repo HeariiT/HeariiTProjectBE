@@ -21,6 +21,6 @@ def filenameChange(instance, filename):
 #    image_url = parse['data']['link']
 #    return image_url
 
-class UploadImage(models.Model):
+class Covers(models.Model):
     image_loc = models.ImageField('Uploaded Image', upload_to=filenameChange)
     song_id = models.IntegerField(default=0, unique=True)

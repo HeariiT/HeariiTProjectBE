@@ -1,6 +1,6 @@
 from django.contrib import admin
-from upload.models import UploadImage
+from upload.models import Covers
 
 # Register your models here.
 
-admin.site.register(UploadImage)
+admin.site.register(Covers)
