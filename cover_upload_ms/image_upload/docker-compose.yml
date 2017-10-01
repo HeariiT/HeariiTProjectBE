@@ -1,0 +1,13 @@
+version: '2'
+services:
+    cover_upload_db:
+        image: postgres:latest
+        ports:
+            - "5432:5432"
+    cover_upload_ms:
+        build: .
+        command: bash -c "python manage.py makemigrations && python manage.py migrate && python3 manage.py runserver 0.0.0.0:3005"
+        ports:
+            - "3005:3005"
+        depends_on:
+            - cover_upload_db
