@@ -1,13 +1,13 @@
 version: "2"
 services:
-  download_db:
+  information_db:
     image: mongo
     command: mongod --port 3305
     ports:
       - "3305:3305"
-  download_ms:
+  information_ms:
     build: .
     ports:
       - "3003:3003"
     depends_on:
-      - download_db
+      - information_db
