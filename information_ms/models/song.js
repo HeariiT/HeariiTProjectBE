@@ -5,10 +5,10 @@ var Schema = mongoose.Schema,
 
 var songSchema = new Schema({
     id          : {type: Number, required: true, unique: true},
-    url         : {type: String, required: true, unique: true},
     user        : {type: Number, required: true},
     title       : {type: String, required: true, unique: true},
-    description : {type: String},
+    author      : {type: String},
+    album       : {type: String},
 })
 songSchema.plugin(uniqueValidator);
 

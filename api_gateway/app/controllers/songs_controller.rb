@@ -117,8 +117,9 @@ class SongsController < ApplicationController
     {
       :user => @@user_data['id'],
       :id => res["song_id"],
-      :url => res["url"],
       :title => params["title"],
+      :author => params["author"],
+      :album => params["album"],
     }
     if response.code == 200
       @res = JSON.parse(response.body)
@@ -132,10 +133,11 @@ class SongsController < ApplicationController
   def updateSong
     options = {
       :body => {
-        :title => params[:title],
         :id => params[:id],
-        :url => params[:url],
-        :user => @@user_data['id']
+        :user => @@user_data['id'],
+        :title => params[:title],
+        :author => params[:author],
+        :album => params[:album]
       }.to_json,
       :headers => {
         'Content-Type' => 'application/json'
