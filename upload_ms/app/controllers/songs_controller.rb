@@ -1,36 +1,5 @@
 class SongsController < ApplicationController
-  before_action :set_song, only: [:by_id, :update, :destroy_by_id]
-
-  # GET /songs
-  def index
-    #Se obtienen todos los parametros ignorando los strong params
-    allParams = params.to_unsafe_h
-    #obtiene los que no son aceptados por la deficion del microservicio
-    unpermitted = allParams.slice!(:firstResult, :maxResult, :controller, :action)
-    #si hay uno o mas de esos parametros no aceptados, se manda el error
-    if unpermitted.length == 0
-      if params.has_key?(:firstResult)
-        if params.has_key?(:maxResult)
-          @songs = Song.all.limit(params[:maxResult]).offset(params[:firstResult].to_i - 1)
-        else
-          @songs = Song.all.offset(params[:firstResult].to_i - 1)
-        end
-      elsif params.has_key?(:maxResult)
-        @songs = Song.all.limit(params[:maxResult])
-      else
-        @songs = Song.all
-      end      
-      render json: @songs
-    else
-      render json:
-      {
-        message: "Not Acceptable (Invalid Params)",
-        code: 406,
-        description: "Only 'firstResult' and 'maxResult' params are valid."
-      }, status: 406
-      return
-    end
-  end
+  before_action :set_song, only: [:by_id, :destroy_by_id]
 
   # GET /songs/1
   # Obtener canciones por su id
