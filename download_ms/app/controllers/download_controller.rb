@@ -15,11 +15,31 @@ class DownloadController < ApplicationController
       path = Rails.root + 'tmp/' + filename
 
       File.open(path, "wb") do |f| 
-        f.write HTTParty.get(sanitized_url).body
+        response = HTTParty.get(sanitized_url)
+        case response.code
+          when 200
+            f.write response.body
+          when 404
+            render json:
+            {
+              message: "Not Found",
+              code: 404,
+              description: "URL was not found on server"
+            }, status: 404
+            return
+          when 500...600
+            render json:
+            {
+              message: "Internal Server Error",
+              code: 500,
+              description: "Unexpected error #{response.code}"
+            }, status: 500
+            return
+        end
       end
-
-      send_file path, filename: filename, type: "audio/mp3", disposition: "attachment"
       
+      send_file path, filename: filename, type: "audio/mp3", disposition: "attachment"
+
     else
       render json:
         {
