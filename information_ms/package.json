@@ -1,5 +1,5 @@
 {
-  "name": "download_ms",
+  "name": "information_ms",
   "version": "5.4.2",
   "description": "The Microservice in charge of the URLs to provide the songs.",
   "main": "app.js",

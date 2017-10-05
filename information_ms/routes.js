@@ -3,7 +3,7 @@ var SongController = require("./controllers/song_controller");
 var router = express.Router();
 
 router.get('/', function (req, res) {
-  res.send('Hello download_ms')
+  res.send('Hello information_ms')
 });
 
 router.route('/songs')
