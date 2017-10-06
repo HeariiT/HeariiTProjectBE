@@ -2,9 +2,6 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   root 'welcome#index'
 
-  resources :songs
-
-
   # Routes for sign_up_ms
   post '/sign_up',   to: 'sign_up#new_user'
   post '/sign_in',   to: 'sign_up#new_session'
@@ -30,5 +27,10 @@ Rails.application.routes.draw do
 
   get '/category_for_file/:file_id', to: 'category_classifier#category_for_file'
   get '/files_for_category/:category_id', to: 'category_classifier#files_for_category'
+
+  #Routes that manage song's information and files
+
+  resources :songs
+  get 'download/:song_id',  to: 'songs#download'
 
 end

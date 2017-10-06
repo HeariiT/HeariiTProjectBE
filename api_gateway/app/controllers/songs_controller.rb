@@ -34,6 +34,14 @@ class SongsController < ApplicationController
     renderErrors();
   end
 
+  #POST /download
+  def download
+    if downloadManager( params[:song_id] )
+      downloadSong( )
+    end
+    renderErrors( )
+  end
+
   #PUT  /songs/:id
   def update
     if updateSong
@@ -67,7 +75,7 @@ class SongsController < ApplicationController
   end
 
   def getAllSongs()
-    response = HTTParty.get(@@download_ms_url + "/songs")
+    response = HTTParty.get(@@information_ms_url + "/songs")
     if response.code == 200
       @songs = JSON.parse(response.body)
       return true
@@ -78,8 +86,7 @@ class SongsController < ApplicationController
   end
 
   def getSongByID(id)
-    response = HTTParty.get(@@download_ms_url + "/songs/" + id.to_s)
-    puts response
+    response = HTTParty.get(@@information_ms_url + "/songs/" + id.to_s)
     if response.code == 200
       @songs = JSON.parse(response.body)
       return true
@@ -90,7 +97,7 @@ class SongsController < ApplicationController
   end
 
   def getSongsByUser(user)
-    response = HTTParty.get(@@download_ms_url + "/songs?user=#{user}")
+    response = HTTParty.get(@@information_ms_url + "/songs?user=#{user}")
     if response.code == 200
       @songs = jsonify( response )
       return true
@@ -99,6 +106,37 @@ class SongsController < ApplicationController
       return false
     end
   end
+
+  def downloadManager( id )
+    response = HTTParty.get(@@upload_ms_url + "/songs/" + id)
+    if response.code == 200
+      body = response.parsed_response
+      @song_url = body["song"]["attachment"]["url"]
+      return true
+    else
+      @error = response
+      return false
+    end
+  end
+
+  def downloadSong( )
+    sanitized_url = @song_url
+    raw_url = URI.parse( sanitized_url )
+    filename = raw_url.path.split( '/' ).last
+    path = Rails.root + 'tmp/' + filename
+
+    song = File.open( path, 'wb' ) do |f|
+      response = RestClient.post @@download_ms_url + '/download', {:url => sanitized_url}
+      if response.code == 200
+        f.write response.body
+        send_file path, filename: filename, type: "audio/mp3", disposition: "attachment"
+        return true
+      else
+        @error = response
+        return false
+      end
+    end
+  end 
 
   def uploadSong(song)
     response = RestClient.post @@upload_ms_url + "/songs", {:user_id => @@user_data['id'], :attachment => song}
@@ -113,7 +151,7 @@ class SongsController < ApplicationController
   end
 
   def postNewSong(params, res)
-    response = RestClient.post @@download_ms_url + "/songs",
+    response = RestClient.post @@information_ms_url + "/songs",
     {
       :user => @@user_data['id'],
       :id => res["song_id"],
@@ -143,7 +181,7 @@ class SongsController < ApplicationController
         'Content-Type' => 'application/json'
       }
     }
-    response = HTTParty.put(@@download_ms_url + "/songs/" + params[:id], options)
+    response = HTTParty.put(@@information_ms_url + "/songs/" + params[:id], options)
     if response.code == 200
       @res = JSON.parse(response.body)
       return true
@@ -165,7 +203,7 @@ class SongsController < ApplicationController
   end
 
   def deleteDataSong(id)
-    response = HTTParty.delete(@@download_ms_url + "/songs/" + id.to_s)
+    response = HTTParty.delete(@@information_ms_url + "/songs/" + id.to_s)
     if response.code == 200
       @res = JSON.parse(response.body)
       return true

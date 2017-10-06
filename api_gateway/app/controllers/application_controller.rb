@@ -3,9 +3,10 @@ class ApplicationController < ActionController::API
   @@sign_up_ms_url = 'http://192.168.99.101:3000'
   @@sessions_ms_url = 'http://192.168.99.101:3001'
   @@upload_ms_url = 'http://192.168.99.101:3002'
-  @@download_ms_url = 'http://192.168.99.101:3003'
+  @@information_ms_url = 'http://192.168.99.101:3003'
   @@category_classifier_ms_url = 'http://192.168.99.101:3004'
-  @@upload_ms_url = 'http://192.168.99.101:3002'
+  @@cover_upload_ms_url = 'http://192.168.99.101:3005'
+  @@download_ms_url = 'http://192.168.99.101:3006'
 
   def jsonify( httparty_results )
     JSON.parse( httparty_results.body )
