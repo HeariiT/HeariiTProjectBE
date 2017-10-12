@@ -1,0 +1,18 @@
+version: '2'
+services:
+    cover_upload_db:
+        image: postgres
+        ports:
+            - "5432:5432"
+        environment:
+            POSTGRES_USER: covers
+            POSTGRES_PASSWORD: 1234
+            POSTGRES_DATABASE: covers
+            POSTGRES_HOST: cover_upload_db
+    cover_upload_ms:
+        build: .
+        command: bash -c "sleep 20; python3 manage.py makemigrations && python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:3005"
+        ports:
+            - "3005:3005"
+        depends_on:
+            - cover_upload_db
