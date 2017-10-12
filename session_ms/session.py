@@ -35,7 +35,7 @@ def login():
         return make_response('Could not verify', 401, {'WWW-Authenticate' : 'Basic realm="Login required!"'})
 
     if  data['password']:
-        token = jwt.encode({'email':data['email'],'exp':datetime.utcnow()+timedelta(minutes=15)},app.config['SECRET_KEY'])
+        token = jwt.encode({'email':data['email'],'exp':datetime.utcnow()+timedelta(weeks=1)},app.config['SECRET_KEY'])
         return jsonify({'token' : token.decode('UTF-8')})
     return make_response('Could not verify!',401,{'WWW-Authenticate' : 'Basic realm="Login Required'})
 
@@ -82,7 +82,7 @@ def refresh():
     try:
         data = jwt.decode(token,app.config['SECRET_KEY'])
     except:
-        token = jwt.encode({'email':email,'exp':datetime.utcnow()+timedelta(minutes=15)},app.config['SECRET_KEY'])
+        token = jwt.encode({'email':email,'exp':datetime.utcnow()+timedelta(weeks=1)},app.config['SECRET_KEY'])
         return jsonify({'token' : token.decode('UTF-8')})
 
     rToken = RevokedToken( rToken = token )
@@ -91,7 +91,7 @@ def refresh():
 
 
     email = data['email']
-    token = jwt.encode({'email':email,'exp':datetime.utcnow()+timedelta(minutes=15)},app.config['SECRET_KEY'])
+    token = jwt.encode({'email':email,'exp':datetime.utcnow()+timedelta(weeks=1)},app.config['SECRET_KEY'])
     return jsonify({'token' : token.decode('UTF-8')})
 
 @app.route('/sign_out', methods=['POST'])
