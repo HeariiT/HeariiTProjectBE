@@ -1,6 +1,6 @@
 class SignUpController < ApplicationController
 
-  before_action :set_options, only: [ :new_user, :new_session, :update_user ]
+  before_action :set_options, only: [ :new_user, :new_session, :update_user, :user_by_email, :user_by_username ]
   before_action :validate_token, only: [ :update_user, :user_index ]
 
   def new_user
@@ -33,6 +33,16 @@ class SignUpController < ApplicationController
 
   def user_index
     results = HTTParty.get( @@sign_up_ms_url + "/users/#{@@user_data['id']}" )
+    render :json => jsonify( results ), :status => results.code
+  end
+
+  def user_by_email
+    results = HTTParty.post( @@sign_up_ms_url + "/email", @options )
+    render :json => jsonify( results ), :status => results.code
+  end
+
+  def user_by_username
+    results = HTTParty.post( @@sign_up_ms_url + "/username", @options )
     render :json => jsonify( results ), :status => results.code
   end
 

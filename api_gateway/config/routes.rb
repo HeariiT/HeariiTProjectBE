@@ -8,8 +8,11 @@ Rails.application.routes.draw do
   # Routes for sign_up_ms
   post '/sign_up',   to: 'sign_up#new_user'
   post '/sign_in',   to: 'sign_up#new_session'
-  put  '/my', to: 'sign_up#update_user'
-  get  '/my', to: 'sign_up#user_index'
+  put  '/my',        to: 'sign_up#update_user'
+  get  '/my',        to: 'sign_up#user_index'
+
+  post '/email',     to: 'sign_up#user_by_email'
+  post '/username',  to: 'sign_up#user_by_username'
 
   # Routes for sessions_ms
   post '/sign_out', to: 'sessions#sign_out'
