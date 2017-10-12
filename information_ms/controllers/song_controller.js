@@ -35,10 +35,10 @@ var SongController = new function(){
 
   this.postNewSong = function (req, res) {
       var song = new Song({ id          : req.body.id,
-                            url         : req.body.url,
                             user        : req.body.user,
                             title       : req.body.title,
-                            description : req.body.description
+                            author      : req.body.author,
+                            album       : req.body.author,
                           });
       song.save().then( function (song) {
         res.send({status: 201,
@@ -63,10 +63,10 @@ var SongController = new function(){
                 });
       }
       song.id           = req.body.id;
-      song.url          = req.body.url;
       song.user         = req.body.user;
       song.title        = req.body.title;
-      song.description  = req.body.description;
+      song.author       = req.body.author;
+      song.album        = req.body.album;
       song.save().then( function (song) {
         res.send({status: 204,
                   message: "No Content"
