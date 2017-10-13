@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   # Routes for sessions_ms
   post '/sign_out', to: 'sessions#sign_out'
   post '/refresh',  to: 'sessions#refresh_token'
+  post '/validate', to: 'sessions#validate_user_token'
 
   # Routes for category_classifier_ms
   get    '/matches',        to: 'category_classifier#index'
