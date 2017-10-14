@@ -38,7 +38,7 @@ var SongController = new function(){
                             user        : req.body.user,
                             title       : req.body.title,
                             author      : req.body.author,
-                            album       : req.body.author,
+                            album       : req.body.album,
                           });
       song.save().then( function (song) {
         res.send({status: 201,
