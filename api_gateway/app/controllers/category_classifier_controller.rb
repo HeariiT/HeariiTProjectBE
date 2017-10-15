@@ -59,13 +59,10 @@ class CategoryClassifierController < ApplicationController
     if results.code == 200
       data = []
       jsonify( results )[ 'data' ].each do |song|
-        song_data = HTTParty.get( @@download_ms_url + "/songs/#{song['file_id']}" )
+        song_data = HTTParty.get( @@information_ms_url + "/songs/#{song['file_id']}" )
         data.push( jsonify( song_data ) )
       end
-      ans = {
-        :data => data
-      }
-      render :json => ans, :status => results.code
+      render :json => data, :status => results.code
     else
       render :json => jsonify( results ), :status => results.code
     end
