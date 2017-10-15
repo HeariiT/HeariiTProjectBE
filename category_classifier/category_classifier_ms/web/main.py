@@ -95,7 +95,7 @@ def new_match( user_id ):
 
     match = {
         'user_id' : user_id,
-        'file_id' : request.json[ 'file_id' ],
+        'file_id' : int( request.json[ 'file_id' ] ),
         'category_id' : request.json[ 'category_id' ]
     }
 
@@ -104,7 +104,7 @@ def new_match( user_id ):
     if request.method == 'POST':
 
         for row in results[ user_id ]:
-            if row.value[ 1 ] == request.json[ 'file_id' ]:
+            if row.value[ 1 ] == int( request.json[ 'file_id' ] ):
                 return jsonify({
                     'error' : 'File with id %s already has a category match.' % ( request.json[ 'file_id' ] )
                 }), 400
@@ -117,7 +117,7 @@ def new_match( user_id ):
     elif request.method == 'PUT':
 
         for row in results[ user_id ]:
-            if row.value[ 1 ] == request.json[ 'file_id' ]:
+            if row.value[ 1 ] == int( request.json[ 'file_id' ] ):
                 doc = match_table[ row.value[ 0 ] ]
                 doc[ 'category_id' ] = request.json[ 'category_id' ]
                 match_table[ row.value[ 0 ] ] = doc
