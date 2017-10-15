@@ -169,9 +169,7 @@ def default_categories( ):
             'category_id' : row.key,
             'category_name' : row.value
         })
-    return jsonify({
-        'data' : data
-    }), 200
+    return jsonify( data ), 200
 
 ####################################### END DEFAULT CATEGORIES ROUTES ##################################################
 
@@ -189,9 +187,7 @@ def user_categories( user_id ):
                 'category_id' : row.value[ 0 ],
                 'category_name' : row.value[ 1 ]
             })
-        return jsonify({
-            'data' : data
-        }), 200
+        return jsonify( data ), 200
     elif request.method == 'POST':
         if not request.json or not 'category_name' in request.json:
             abort( 400 )
