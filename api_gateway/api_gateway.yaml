@@ -754,9 +754,15 @@ definitions:
   SongPut:
     type: object
     required:
-      - url
+      - title
+      - author
+      - album
     properties:
-      url:
+      title:
+        type: string
+      author:
+        type: string
+      album:
         type: string
   SongList:
     type: object

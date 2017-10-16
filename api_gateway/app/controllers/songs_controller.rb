@@ -44,7 +44,7 @@ class SongsController < ApplicationController
 
   #PUT  /songs/:id
   def update
-    if updateSong
+    if updateSong(params)
       render json: @res
     end
     renderErrors();
@@ -168,7 +168,7 @@ class SongsController < ApplicationController
     end
   end
 
-  def updateSong
+  def updateSong(params)
     options = {
       :body => {
         :id => params[:id],

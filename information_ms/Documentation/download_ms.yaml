@@ -169,19 +169,20 @@ definitions:
     type: object
     required:
       - id
-      - url
       - user
       - title
+      - author
+      - album
     properties:
       id:
-        type: string
-      url:
         type: string
       user:
         type: string
       title:
         type: string
-      description:
+      author:
+        type: string
+      album:
         type: string
   SongList:
     type: object
