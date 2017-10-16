@@ -177,6 +177,90 @@ paths:
           description: Internal Server Error.
           schema:
             $ref: '#/definitions/ErrorModel'
+
+  /email:
+    post:
+      summary: Return an user by email
+      parameters:
+        - name: email
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserEmail'
+      responses:
+        '200':
+          description: User
+          schema:
+            $ref: '#/definitions/Users'
+        '400':
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '422':
+          description: Unprocessable Entity.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /username:
+    post:
+      summary: Return an user by username
+      parameters:
+        - name: username
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/UserUsername'
+      responses:
+        '200':
+          description: User
+          schema:
+            $ref: '#/definitions/Users'
+        '400':
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '422':
+          description: Unprocessable Entity.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /validate:
+    post:
+      summary: Checks for token lifetime
+      parameters:
+        - name: x-access-token
+          in: header
+          description: Token to be validated
+          required: true
+          type: string
+      responses:
+        '200':
+          description: Email
+          schema:
+            $ref: '#/definitions/UserEmail'
+        '401':
+          description: Token is invalid
+        '400':
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '422':
+          description: Unprocessable Entity.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error.
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
   /songs:
     get:
       summary: Returns a query of songs.
@@ -634,6 +718,8 @@ definitions:
       - id
       - url
       - title
+      - author
+      - album
       - user
     properties:
       id:
@@ -644,13 +730,23 @@ definitions:
         type: string
       title:
         type: string
+      author:
+        type: string
+      album:
+        type: string
   SongUpload:
     type: object
     required:
       - title
+      - author
+      - album
       - attachment
     properties:
       title:
+        type: string
+      author:
+        type: string
+      album:
         type: string
       attachment:
         type: string
@@ -659,11 +755,8 @@ definitions:
     type: object
     required:
       - url
-      - title
     properties:
       url:
-        type: string
-      title:
         type: string
   SongList:
     type: object
@@ -816,7 +909,7 @@ definitions:
       category_id:
         type: string
       file_id:
-        type: string
+        type: integer
   createdMatch:
     type: object
     properties:
@@ -877,4 +970,14 @@ definitions:
     type: object
     properties:
       error:
+        type: string
+  UserEmail:
+    type: object
+    properties:
+      email:
+        type: string
+  UserUsername:
+    type: object
+    properties:
+      username:
         type: string

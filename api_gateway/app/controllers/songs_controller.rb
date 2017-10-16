@@ -136,7 +136,7 @@ class SongsController < ApplicationController
         return false
       end
     end
-  end 
+  end
 
   def uploadSong(song)
     response = RestClient.post @@upload_ms_url + "/songs", {:user_id => @@user_data['id'], :attachment => song}
@@ -192,7 +192,9 @@ class SongsController < ApplicationController
   end
 
   def deleteSong(id)
-    response = RestClient.delete @@upload_ms_url + "/songs" + id.to_s
+    # Deleting matches for this
+    response = HTTParty.delete( @@category_classifier_ms_url + "/user/#{@@user_data['id']}/match/#{id}" )
+    response = RestClient.delete @@upload_ms_url + "/songs/" + id.to_s
     if response.code == 200
       @res = JSON.parse(response.body)
       return true
