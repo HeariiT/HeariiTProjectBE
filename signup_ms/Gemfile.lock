@@ -97,6 +97,7 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
+    nori (2.6.0)
     oauth2 (1.4.0)
       faraday (>= 0.8, < 0.13)
       jwt (~> 1.0)
@@ -173,6 +174,8 @@ GEM
       thread_safe (~> 0.1)
     warden (1.2.7)
       rack (>= 1.0)
+    wash_out (0.12.0)
+      nori (>= 2.0.0)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -199,6 +202,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   therubyracer
   tzinfo-data
+  wash_out
 
 BUNDLED WITH
    1.15.4

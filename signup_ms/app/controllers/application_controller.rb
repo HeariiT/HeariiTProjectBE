@@ -3,7 +3,7 @@ class ApplicationController < ActionController::API
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   def configure_permitted_parameters
-      if resource_class == User 
+      if resource_class == User
           devise_parameter_sanitizer.permit(:sign_up, keys: [:username, :first_name, :last_name, :email])
           devise_parameter_sanitizer.permit(:account_update, keys: [:first_name, :last_name])
       end
