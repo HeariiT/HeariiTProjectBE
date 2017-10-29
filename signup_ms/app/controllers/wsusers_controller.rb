@@ -1,4 +1,4 @@
-class WsusersControllerController < ApplicationController
+class WsusersController < ApplicationController
   soap_service namespace: 'urn:WashOutUser', camelize_wsdl: :lower
 
   # check case

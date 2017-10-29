@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class WsusersControllerControllerTest < ActionDispatch::IntegrationTest
+class WsusersControllerTest < ActionDispatch::IntegrationTest
   # test "the truth" do
   #   assert true
   # end
