@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<definitions
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="wsdlWrapper" targetNamespace="http://enterprise.netbeans.org/bpel/wsdlWrapper" xmlns:tns="http://enterprise.netbeans.org/bpel/wsdlWrapper" xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype" xmlns:ns="urn:WashOutUser">
+    <import location="http://192.168.99.101:3000/wsusers/wsdl" namespace="urn:WashOutUser"/>
+    <plnk:partnerLinkType name="wsusers_portLinkType">
+        <plnk:role name="wsusers_portRole" portType="ns:wsusers_port"/>
+    </plnk:partnerLinkType>
+</definitions>

@@ -3,11 +3,11 @@ class WsusersController < ApplicationController
 
   # check case
   soap_action "checkUser",
-              :args   => { :id => :integer },
+              :args   => { :email => :string },
               :return => :boolean
   def checkUser
     validate = true
-    if !(User.exists?(id: params[:id]))
+    if !(User.exists?(email: params[:email]))
       validate = false
     end
     render :soap => validate
