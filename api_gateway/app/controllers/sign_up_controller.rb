@@ -4,11 +4,44 @@ class SignUpController < ApplicationController
   before_action :validate_token, only: [ :update_user, :user_index ]
 
   def new_user
+    ldap_options = {
+      :body => {
+        :email => params[ :email ],
+        :password => params[ :password ],
+        :nick => "hola",
+        :name => "hola"
+      }.to_json,
+        :headers => {
+        'Content-Type' => 'application/json'
+      }
+    }
+    ldap_results = HTTParty.post( @@ldap_url + '/user/resources/ldapcruds', ldap_options )
     results = HTTParty.post( @@sign_up_ms_url +  '/auth', @options )
     render :json => jsonify( results ), :status => results.code
   end
 
   def new_session
+    ldap_options = {
+      :body => {
+        :email => params[ :email ],
+        :password => params[ :password ],
+        :nick => "hola",
+        :name => "hola"
+      }.to_json,
+        :headers => {
+        'Content-Type' => 'application/json'
+      }
+    }
+    ldap_results = HTTParty.post( @@ldap_url +  '/user/resources/ldap', ldap_options )
+    unless jsonify( ldap_results )[ 'login' ] == 'True'
+      render :json => {
+          :msg => "Unauthorized",
+          :code => 401,
+          :description => "Invalid credentials for LDAP"
+        }, :status => ldap_results.code
+      return
+    end
+
     sign_up_results = HTTParty.post( @@sign_up_ms_url +  '/auth/sign_in', @options )
     if sign_up_results.include? 'errors'
       render :json => jsonify( sign_up_results ), :status => sign_up_results.code
