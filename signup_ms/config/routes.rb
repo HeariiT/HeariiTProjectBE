@@ -5,4 +5,7 @@ Rails.application.routes.draw do
   post 'email', to: "users#email_exist"
   post 'username', to: "users#username_exist"
   put 'users/:id', to: "users#update"
+
+  wash_out :wsusers
+
 end

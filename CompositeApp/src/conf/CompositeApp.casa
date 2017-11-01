@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<casa xmlns="http://java.sun.com/xml/ns/casa" xmlns:ns1="urn:WashOutUser" xmlns:ns2="http://j2ee.netbeans.org/wsdl/BpelModule/src/OperationESB" xmlns:ns3="http://enterprise.netbeans.org/bpel/BpelModule/bpelModule" xmlns:xlink="http://www.w3.org/2000/xlink">
+    <endpoints>
+        <endpoint endpoint-name="wsusers_port" interface-name="ns1:wsusers_port" name="endpoint1" service-name="ns1:service"/>
+        <endpoint endpoint-name="OperationESBPort" interface-name="ns2:OperationESBPortType" name="endpoint2" service-name="ns2:OperationESBService"/>
+        <endpoint display-name="OperationESB" endpoint-name="OperationESBPortTypeRole_myRole" file-path="bpelModule.bpel" interface-name="ns2:OperationESBPortType" name="endpoint3" process-name="bpelModule" service-name="ns3:OperationESB"/>
+        <endpoint display-name="UserWS" endpoint-name="wsusers_portRole_partnerRole" file-path="bpelModule.bpel" interface-name="ns1:wsusers_port" name="endpoint4" process-name="bpelModule" service-name="ns3:UserWS"/>
+    </endpoints>
+    <service-units>
+        <service-engine-service-unit artifacts-zip="BpelModule.jar" component-name="sun-bpel-engine" defined="true" description="Represents this Service Unit" internal="true" name="CompositeApp-BpelModule" unit-name="BpelModule" unknown="false" x="-1" y="-1">
+            <provides endpoint="endpoint3"/>
+            <consumes endpoint="endpoint4"/>
+        </service-engine-service-unit>
+        <binding-component-service-unit artifacts-zip="sun-http-binding.jar" component-name="sun-http-binding" description="Represents this Service Unit" name="CompositeApp-sun-http-binding" unit-name="sun-http-binding">
+            <ports>
+                <port x="0" y="-1">
+                    <link xlink:href="../jbiServiceUnits/BpelModule/OperationESB.wsdl#xpointer(/definitions/service[@name='OperationESBService']/port[@name='OperationESBPort'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint2"/>
+                    <provides endpoint="endpoint2"/>
+                </port>
+                <port x="0" y="-1">
+                    <link xlink:href="../jbiServiceUnits/BpelModule/192.168.99.101_3000/wsusers/wsdl.wsdl#xpointer(/definitions/service[@name='service']/port[@name='wsusers_port'])" xlink:type="simple"/>
+                    <consumes endpoint="endpoint1"/>
+                    <provides endpoint="endpoint1"/>
+                </port>
+            </ports>
+        </binding-component-service-unit>
+    </service-units>
+    <connections>
+        <connection consumer="endpoint4" provider="endpoint1" state="unchanged"/>
+        <connection consumer="endpoint2" provider="endpoint3" state="unchanged"/>
+    </connections>
+    <porttypes>
+        <link xlink:href="../jbiServiceUnits/BpelModule/OperationESB.wsdl#xpointer(/definitions/portType[@name='OperationESBPortType'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModule/192.168.99.101_3000/wsusers/wsdl.wsdl#xpointer(/definitions/portType[@name='wsusers_port'])" xlink:type="simple"/>
+    </porttypes>
+    <bindings>
+        <link xlink:href="../jbiServiceUnits/BpelModule/OperationESB.wsdl#xpointer(/definitions/binding[@name='OperationESBBinding'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModule/192.168.99.101_3000/wsusers/wsdl.wsdl#xpointer(/definitions/binding[@name='wsusers_binding'])" xlink:type="simple"/>
+    </bindings>
+    <services>
+        <link xlink:href="../jbiServiceUnits/BpelModule/OperationESB.wsdl#xpointer(/definitions/service[@name='OperationESBService'])" xlink:type="simple"/>
+        <link xlink:href="../jbiServiceUnits/BpelModule/192.168.99.101_3000/wsusers/wsdl.wsdl#xpointer(/definitions/service[@name='service'])" xlink:type="simple"/>
+    </services>
+    <regions>
+        <region name="WSDL Endpoints" width="150"/>
+        <region name="JBI Modules" width="500"/>
+        <region name="External Modules" width="200"/>
+    </regions>
+</casa>
