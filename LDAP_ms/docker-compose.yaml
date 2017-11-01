@@ -1,4 +1,4 @@
-ldap-ms:
+ldap_ms:
   build: .
   ports:
     - "4001:4001"
