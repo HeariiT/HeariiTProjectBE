@@ -38,7 +38,7 @@ class SignUpController < ApplicationController
           :msg => "Unauthorized",
           :code => 401,
           :description => "Invalid credentials for LDAP"
-        }, :status => ldap_results.code
+        }, :status => 401
       return
     end
 
