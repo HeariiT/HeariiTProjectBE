@@ -1,0 +1,1 @@
+./rancher-compose --project-name sa-api-gateway --url http://192.168.99.100:8080/v1/projects/1a5 --access-key F3AB6A380875EB44EAF9 --secret-key PG3zahyC4CwUGaEfbnmAz5ZKvGALGKSm6tVCArWA -f docker-compose.yml --verbose up -d --force-upgrade --confirm-upgrade
