@@ -211,7 +211,7 @@ GEM
     inflecto (0.0.2)
     ipaddress (0.8.3)
     json (1.8.6)
-    libv8 (3.16.14.19-x86_64-linux)
+    libv8 (3.16.14.19)
     listen (3.1.5)
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
@@ -292,7 +292,7 @@ GEM
       thread_safe (~> 0.1)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
-    websocket-extensions (0.1.2)
+    websocket-extensions (0.1.5)
     xml-simple (1.1.5)
 
 PLATFORMS
